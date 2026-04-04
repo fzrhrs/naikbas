@@ -36,35 +36,12 @@
         </div>
         <div class="header-text">
           <div class="title">Naik Bas</div>
-          <div class="sub">Bas Pink Sabah — S01 &amp; S05</div>
+          <div class="sub">Bas Pink Sabah — 8 Routes</div>
         </div>
       </div>
     </header>
 
     <main>
-      <!-- ROUTE CARDS -->
-      <div class="card">
-        <div class="section-label">Available Routes — tap to see stops</div>
-        <div class="route-pills">
-          <div class="route-pill" onclick="showModal('S01')">
-            <div class="route-pill-num">S01</div>
-            <div>
-              <div class="route-pill-name">KK Sentral ↔ UMS</div>
-              <div class="route-pill-info">31.78 km · via Likas &amp; 1 Borneo</div>
-            </div>
-            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
-          <div class="route-pill" onclick="showModal('S05')">
-            <div class="route-pill-num">S05</div>
-            <div>
-              <div class="route-pill-name">KK Sentral City Loop</div>
-              <div class="route-pill-info">17.84 km · via City Centre &amp; KPJ</div>
-            </div>
-            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
-        </div>
-      </div>
-
       <!-- SEARCH -->
       <div class="card">
         <div class="field-label">From</div>
@@ -125,6 +102,77 @@
             <line x1="12" y1="13" x2="12" y2="13" stroke-width="2.5" stroke-linecap="round"/>
           </svg>
           <p>Where are you going today?</p>
+        </div>
+      </div>
+
+      <!-- ROUTE CARDS -->
+      <div class="card">
+        <div class="section-label">Available Routes — tap to see stops</div>
+        <div class="route-pills">
+          <div class="route-pill" onclick="showModal('S01')">
+            <div class="route-pill-num">S01</div>
+            <div>
+              <div class="route-pill-name">KK Sentral ↔ UMS</div>
+              <div class="route-pill-info">31.78 km · via Likas &amp; 1 Borneo</div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="route-pill route-pill-disabled" onclick="showModal('S02')">
+            <div class="route-pill-num">S02</div>
+            <div>
+              <div class="route-pill-name">KK Sentral Loop</div>
+              <div class="route-pill-info">32.88 km · <span class="coming-soon-badge">Coming July 2026</span></div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="route-pill route-pill-disabled" onclick="showModal('S03')">
+            <div class="route-pill-num">S03</div>
+            <div>
+              <div class="route-pill-name">Terminal Manggatal ↔ KK Sentral</div>
+              <div class="route-pill-info">38.34 km · <span class="coming-soon-badge">Coming July 2026</span></div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="route-pill route-pill-disabled" onclick="showModal('S04')">
+            <div class="route-pill-num">S04</div>
+            <div>
+              <div class="route-pill-name">Terminal Manggatal ↔ KK Sentral</div>
+              <div class="route-pill-info">38.66 km · <span class="coming-soon-badge">Coming July 2026</span></div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="route-pill" onclick="showModal('S05')">
+            <div class="route-pill-num">S05</div>
+            <div>
+              <div class="route-pill-name">KK Sentral City Loop</div>
+              <div class="route-pill-info">17.84 km · via Jesselton &amp; Damai</div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="route-pill route-pill-disabled" onclick="showModal('S06')">
+            <div class="route-pill-num">S06</div>
+            <div>
+              <div class="route-pill-name">KK Sentral Loop</div>
+              <div class="route-pill-info">20.40 km · <span class="coming-soon-badge">Coming July 2026</span></div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="route-pill route-pill-disabled" onclick="showModal('S07')">
+            <div class="route-pill-num">S07</div>
+            <div>
+              <div class="route-pill-name">KK Sentral Loop</div>
+              <div class="route-pill-info">20.00 km · <span class="coming-soon-badge">Coming July 2026</span></div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="route-pill route-pill-disabled" onclick="showModal('S08')">
+            <div class="route-pill-num">S08</div>
+            <div>
+              <div class="route-pill-name">KK Sentral Loop</div>
+              <div class="route-pill-info">20.00 km · <span class="coming-soon-badge">Coming July 2025</span></div>
+            </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
         </div>
       </div>
     </main>

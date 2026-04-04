@@ -2,6 +2,7 @@
 const ROUTES = {
   S01: {
     name: 'S01', label: 'KK Sentral ↔ UMS / Likas Loop', distance: '31.78 km',
+    available: true,
     outbound: [
       'KK Sentral','Jabatan Audit','Monocolo Boutique Hotel','Sawit Kinabalu',
       'Wisma Wanita','Taman Yakim Jaya','Basel Likas','SM Shan Tao',
@@ -16,8 +17,70 @@ const ROUTES = {
       'Taman Layang-Layang','Zirafah','OPP Mahkamah','OPP Jabatan Audit','KK Sentral'
     ]
   },
+  S02: {
+    name: 'S02', label: 'KK Sentral Loop', distance: '32.88 km',
+    available: false,
+    availableFrom: 'July 2026',
+    outbound: [
+      'KK Sentral','Holiday Inn','Mosque Valley','Pelabuhan Lama','Tamu KPD',
+      'Maksak','OPP Anjung Selera','OPP Innoprise','OPP KPKPS','Alamesra II',
+      'OPP 1 Borneo','Alamesra I','Kg. Delima','1 Borneo','UMS','KPKPS',
+      'Innoprise','Menara Kinabalu','Anjung Selera'
+    ],
+    inbound: [
+      'Anjung Selera','Jabatan Audit','Mahkamah Kota Kinabalu','Grace Chapel',
+      'Foh Sang','E-West','Taman Kinabalu','City Mall','Bunga Raja',
+      'Iramanis Commercial Centre','Metro Town','OPP BSA','Puh Toh Si',
+      'Taman Cempaka','Likas Plaza','OPP Pintu Masjid Bandaraya','Masjid Bandaraya',
+      'McD Anjung Selera','KK Sentral'
+    ]
+  },
+  S03: {
+    name: 'S03', label: 'Terminal Manggatal ↔ KK Sentral', distance: '38.34 km',
+    available: false,
+    availableFrom: 'July 2026',
+    outbound: [
+      'Terminal Manggatal','Klinik Kesihatan Manggatal','UCA','Desa Kastam',
+      'Eco Park','Kg. Delima','Akademi Bomba','1 Sulaman','Kingfisher Sulaman',
+      'KFC Sulaman','Kg. Delima','1 Borneo','UMS','KPKPS','Innoprise',
+      'Menara Kinabalu','Masjid Bandaraya','McD Anjung Selera','Masjid Bandaraya',
+      'Taman Awam Teluk Likas','Bulatan Istiadat','Sabah Energy','SICC','DBKK',
+      'Wisma Budaya','Chung Hwa KK'
+    ],
+    inbound: [
+      'Chung Hwa KK','SK Darau','Manggatal Plaza','Bigwheel-Sg. Darau',
+      'SK Lok Yuk Inanam','EG Mall','Opp Kilang Papan Hiong Tiong',
+      'Wisma Chu Tai Seng','FBN','Visa Light Industrial','Puh Toh Si',
+      'Taman Cempaka','Plaza Juta','Opp Wisma Kosan','Chanyai Villa',
+      'SDA Likas','OPP SM Shan Tao','Taman Winley Estate','Basel Likas',
+      'Kian Kok','Taman Keramat I','Taman Keramat II','Sunny Garden',
+      'OPP Jabatan Audit','KK Sentral'
+    ]
+  },
+  S04: {
+    name: 'S04', label: 'Terminal Manggatal ↔ KK Sentral', distance: '38.66 km',
+    available: false,
+    availableFrom: 'July 2026',
+    outbound: [
+      'Terminal Manggatal','Pekan Manggatal','Wisma Chan Furniture',
+      'Kim Heng- Sg. Darau','Opp SK Lok Yuk Inanam','Opp EG Mall','Hiong Tiong',
+      'Balai Polis Inanam','Opp Wisma Chu Tai Seng','Inanam Business Centre',
+      'Terminal Bas Bandaraya (Utara)','Khong Guan','Shell Likas','Wisma Kosan',
+      'Opp SDA Likas','SM Shan Tao','Basel Likas','Taman Yakim Jaya',
+      'Wisma Wanita','Sawit Kinabalu','Monocolo Boutique Hotel','Jabatan Audit'
+    ],
+    inbound: [
+      'Jabatan Audit','Wisma Chan Furniture','Pekan Manggatal',
+      'Opp Klinik Kesihatan Manggatal','SPRIM','BCCIM Sepanggar Church',
+      'UA Apartment 2','UCA1','Taman Rimbunan Hijau','Alamesra I',
+      'Opp 1 Borneo','Alamesra II','Opp KPKPS','Opp Innoprise',
+      'Menara Kinabalu','Opp Anjung Selera','Maksak','Tamu KPD',
+      'Pelabuhan Lama','Mosque Valley','Holiday Inn','KK Sentral'
+    ]
+  },
   S05: {
     name: 'S05', label: 'KK Sentral City Loop', distance: '17.84 km',
+    available: true,
     outbound: [
       'KK Sentral','Centre Point','Segama','Jesselton Mall',
       'Jesselton Point Ferry Terminal','Jesselton Quay','SICC',
@@ -28,6 +91,51 @@ const ROUTES = {
       'KPJ','HQE 2','Damai Plaza','E-West','Taman Kinabalu','Lido',
       'Taman Fortuna','Vetro 11','HQE 1','Masjid Negeri','UTC',
       'Sacred Heart','Sadong Jaya','KK Sentral'
+    ]
+  },
+  S06: {
+    name: 'S06', label: 'KK Sentral Loop', distance: '20.40 km',
+    available: false,
+    availableFrom: 'July 2026',
+    outbound: [
+      'KK Sentral','Holiday Inn','Mosque Valley','Pelabuhan Lama','Tamu KPD',
+      'Likas Square','Stadium Likas','Opp Stadium Hoki','Tahung Shin',
+      'Dewan Damai','KPJ','Foh Sang'
+    ],
+    inbound: [
+      'Foh Sang','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
+      'Wisma Hasil','Kereta Api Sembulan','Kolej Sabah','Opp HQE 1',
+      'Muzium','Arkib Negeri Sabah','Luyang Plaza','KK Sentral'
+    ]
+  },
+  S07: {
+    name: 'S07', label: 'KK Sentral Loop', distance: '20.00 km',
+    available: false,
+    availableFrom: 'July 2026',
+    outbound: [
+      'KK Sentral','Sadong Jaya','Sacred Heart','UTC','Masjid Negeri',
+      'HQE 1','Vetro 11','Taman Fortuna','Lido','88 Market',
+      'Kepayan Ridge','Opp RTM'
+    ],
+    inbound: [
+      'Opp RTM','Sutera Avenue','Taman Sempelang','Aeropod','Taman Winly',
+      'IPK Sabah','Pahlawan','Jejantas KKIA','KKIA','Millenium Centre',
+      'Taman Olivia','KK Sentral'
+    ]
+  },
+  S08: {
+    name: 'S08', label: 'KK Sentral Loop', distance: '20.00 km',
+    available: false,
+    availableFrom: 'July 2026',
+    outbound: [
+      'KK Sentral','Imago','Sutera Harbour','PERKESO','Bengkel JKR',
+      'KKIA','Kepayan Commercial Centre','Petronas Kg. Matambai','RTM',
+      'Open University Malaysia','Lido Avenue'
+    ],
+    inbound: [
+      'Lido Avenue','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
+      'Wisma Hasil','Kereta Api Sembulan','Kolej Sabah','Opp HQE 1',
+      'Muzium','Arkib Negeri Sabah','KK Sentral'
     ]
   }
 };
@@ -172,6 +280,9 @@ function findRoute(fromStop, toStop) {
 
   // Check each route, each direction for DIRECT routes
   Object.entries(ROUTES).forEach(([code, r]) => {
+    // Skip unavailable routes
+    if (!r.available) return;
+    
     ['outbound','inbound'].forEach(dir => {
       const stops = r[dir];
       const fi = stops.indexOf(fromStop);
@@ -198,6 +309,8 @@ function findRoute(fromStop, toStop) {
   // Try SAME-ROUTE TRANSFERS (e.g., SICC to Damai Plaza via KPJ on S05)
   const sameRouteTransfers = [];
   Object.entries(ROUTES).forEach(([code, r]) => {
+    // Skip unavailable routes
+    if (!r.available) return;
     ['outbound','inbound'].forEach(dirA => {
       ['outbound','inbound'].forEach(dirB => {
         if (dirA === dirB) return; // Skip same direction (already checked above)
@@ -247,6 +360,8 @@ function findRoute(fromStop, toStop) {
   // Try MULTI-ROUTE TRANSFERS via any common stop
   const multiRouteTransfers = [];
   Object.entries(ROUTES).forEach(([codeA, rA]) => {
+    // Skip unavailable routes
+    if (!rA.available) return;
     ['outbound','inbound'].forEach(dirA => {
       const stopsA = rA[dirA];
       const fi = stopsA.indexOf(fromStop);
@@ -254,6 +369,7 @@ function findRoute(fromStop, toStop) {
       
       Object.entries(ROUTES).forEach(([codeB, rB]) => {
         if (codeA === codeB) return; // Skip same route (handled above)
+        if (!rB.available) return; // Skip unavailable routes
         
         ['outbound','inbound'].forEach(dirB => {
           const stopsB = rB[dirB];
@@ -308,6 +424,8 @@ function findRoute(fromStop, toStop) {
   // Try 2-TRANSFER (3-leg) journeys for complex routes
   const twoTransferJourneys = [];
   Object.entries(ROUTES).forEach(([codeA, rA]) => {
+    // Skip unavailable routes
+    if (!rA.available) return;
     ['outbound','inbound'].forEach(dirA => {
       const stopsA = rA[dirA];
       const fi = stopsA.indexOf(fromStop);
@@ -315,6 +433,7 @@ function findRoute(fromStop, toStop) {
       
       // Find all possible first transfer points
       Object.entries(ROUTES).forEach(([codeB, rB]) => {
+        if (!rB.available) return; // Skip unavailable routes
         ['outbound','inbound'].forEach(dirB => {
           const stopsB = rB[dirB];
           const commonAB = stopsA.filter(s => stopsB.includes(s));
@@ -326,6 +445,7 @@ function findRoute(fromStop, toStop) {
             
             // Find second leg to final transfer point
             Object.entries(ROUTES).forEach(([codeC, rC]) => {
+              if (!rC.available) return; // Skip unavailable routes
               ['outbound','inbound'].forEach(dirC => {
                 const stopsC = rC[dirC];
                 const ti = stopsC.indexOf(toStop);
@@ -692,14 +812,39 @@ function searchRoute() {
 
 function showNotFound(query, role) {
   const suggestions = fuzzySearch(query).slice(0, 5);
+  
+  // Check if this stop exists in unavailable routes
+  const upcomingRoutes = [];
+  Object.entries(ROUTES).forEach(([code, r]) => {
+    if (!r.available) {
+      const allStops = [...r.outbound, ...r.inbound];
+      if (allStops.some(s => normalise(s) === normalise(query))) {
+        upcomingRoutes.push({ code, availableFrom: r.availableFrom });
+      }
+    }
+  });
+  
+  let upcomingMessage = '';
+  if (upcomingRoutes.length > 0) {
+    const routeCodes = upcomingRoutes.map(r => r.code).join(', ');
+    const availableFrom = upcomingRoutes[0].availableFrom;
+    upcomingMessage = `
+      <div style="margin-top:1rem;padding:12px;background:#e8f8ef;border:1px solid #b8e8cc;border-radius:8px;">
+        <p style="font-size:12px;color:#0a6630;margin:0;line-height:1.5;">
+          <strong>🚧 Good news!</strong> "${query}" will be available on route${upcomingRoutes.length > 1 ? 's' : ''} <strong>${routeCodes}</strong> starting <strong>${availableFrom}</strong>.
+        </p>
+      </div>`;
+  }
+  
   document.getElementById('result').innerHTML = `
     <div class="not-found">
       <h3>Stop not found</h3>
-      <p>"${query}" is not a Bas Pink stop. Did you mean one of these?</p>
+      <p>"${query}" is not currently available on active routes (S01 & S05). Did you mean one of these?</p>
       ${suggestions.length > 0 ? `
         <div class="suggestions">
           ${suggestions.map(s => `<span class="sug-chip" onclick="fillFrom('${s}','${role}')">${s}</span>`).join('')}
         </div>` : '<p style="margin-top:8px;font-size:12px">Tap a route card above to browse all stops.</p>'}
+      ${upcomingMessage}
     </div>`;
 }
 
@@ -769,16 +914,36 @@ function quickFill(from, to) {
 function showModal(code) {
   const r = ROUTES[code];
   document.getElementById('modalTitle').textContent = `${code} — ${r.label}`;
-  document.getElementById('modalMeta').textContent = `${r.distance} · Free · ~6AM–10PM · Every 20–30 min`;
-  document.getElementById('modalBody').innerHTML = `
-    <div class="modal-dir-label">→ Outbound stops (${r.outbound.length} stops)</div>
-    <div class="stops-list">${r.outbound.map((s,i) =>
-      `<div class="s-row"><div class="s-dot ${i===0||i===r.outbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
-    ).join('')}</div>
-    <div class="modal-dir-label">← Inbound stops (${r.inbound.length} stops)</div>
-    <div class="stops-list">${r.inbound.map((s,i) =>
-      `<div class="s-row"><div class="s-dot ${i===0||i===r.inbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
-    ).join('')}</div>`;
+  
+  if (!r.available) {
+    document.getElementById('modalMeta').textContent = `Coming ${r.availableFrom}`;
+    document.getElementById('modalBody').innerHTML = `
+      <div style="text-align:center;padding:2rem 1rem;">
+        <div style="font-size:48px;margin-bottom:1rem;">🚧</div>
+        <h3 style="font-size:16px;color:var(--text);margin-bottom:8px;">Route Not Yet Available</h3>
+        <p style="font-size:13px;color:var(--muted);line-height:1.6;">
+          This route is scheduled to launch in <strong>${r.availableFrom}</strong>.<br>
+          Route details and stops will be added once the service begins.
+        </p>
+        <div style="margin-top:1.5rem;padding:12px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:8px;">
+          <p style="font-size:12px;color:#e65c00;margin:0;">
+            💡 Currently, only <strong>S01</strong> and <strong>S05</strong> routes are operational.
+          </p>
+        </div>
+      </div>`;
+  } else {
+    document.getElementById('modalMeta').textContent = `${r.distance} · Free · ~6AM–10PM · Every 20–30 min`;
+    document.getElementById('modalBody').innerHTML = `
+      <div class="modal-dir-label">→ Outbound stops (${r.outbound.length} stops)</div>
+      <div class="stops-list">${r.outbound.map((s,i) =>
+        `<div class="s-row"><div class="s-dot ${i===0||i===r.outbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
+      ).join('')}</div>
+      <div class="modal-dir-label">← Inbound stops (${r.inbound.length} stops)</div>
+      <div class="stops-list">${r.inbound.map((s,i) =>
+        `<div class="s-row"><div class="s-dot ${i===0||i===r.inbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
+      ).join('')}</div>`;
+  }
+  
   document.getElementById('stopsModal').classList.add('open');
 }
 
