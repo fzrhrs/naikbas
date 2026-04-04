@@ -1,141 +1,124 @@
 // ─── ROUTE DATA ────────────────────────────────────────────────
+// Major transfer hubs - these are emphasized in route planning
+const MAJOR_HUBS = {
+  'KK Sentral': ['S01', 'S02', 'S03', 'S04', 'S05', 'S06', 'S07', 'S08'],
+  'Terminal Menggatal': ['S03', 'S04']
+};
+
 const ROUTES = {
   S01: {
-    name: 'S01', label: 'KK Sentral ↔ UMS / Likas Loop', distance: '31.78 km',
+    name: 'S01', label: 'KK Sentral Loop (Likas)', distance: '31.78 km',
     available: true,
-    outbound: [
+    stops: [
       'KK Sentral','Jabatan Audit','Monocolo Boutique Hotel','Sawit Kinabalu',
       'Wisma Wanita','Taman Yakim Jaya','Basel Likas','SM Shan Tao',
       'OPP SDA Likas','Wisma Kosan','Likas Plaza','OPP Pintu Masjid Bandaraya',
       'Masjid Bandaraya','McD Anjung Selera','Anjung Selera','Menara Kinabalu',
-      'Innoprise','KPKPS','UMS'
-    ],
-    inbound: [
-      'UMS','1 Borneo','Kg. Delima','Alamesra I','OPP 1 Borneo','Alamesra II',
-      'OPP KPKPS','OPP Innoprise','Pintu Masjid Bandaraya','Shell Likas',
-      'Kg. Cendrakasih','Luyang Plaza','Foh Sang','Bornion',
-      'Taman Layang-Layang','Zirafah','OPP Mahkamah','OPP Jabatan Audit','KK Sentral'
+      'Innoprise','KPKPS','UMS','1 Borneo','Kg. Delima','Alamesra I',
+      'OPP 1 Borneo','Alamesra II','OPP KPKPS','OPP Innoprise',
+      'Pintu Masjid Bandaraya','Shell Likas','Kg. Cendrakasih','Luyang Plaza',
+      'Foh Sang','Bornion','Taman Layang-Layang','Zirafah','OPP Mahkamah',
+      'OPP Jabatan Audit'
     ]
   },
   S02: {
     name: 'S02', label: 'KK Sentral Loop', distance: '32.88 km',
-    available: false,
+    available: true,
     availableFrom: 'July 2026',
-    outbound: [
-      'KK Sentral','Holiday Inn','Mosque Valley','Pelabuhan Lama','Tamu KPD',
-      'Maksak','OPP Anjung Selera','OPP Innoprise','OPP KPKPS','Alamesra II',
-      'OPP 1 Borneo','Alamesra I','Kg. Delima','1 Borneo','UMS','KPKPS',
-      'Innoprise','Menara Kinabalu','Anjung Selera'
-    ],
-    inbound: [
-      'Anjung Selera','Jabatan Audit','Mahkamah Kota Kinabalu','Grace Chapel',
+    stops: [
+      'KK Sentral','Jabatan Audit','Mahkamah Kota Kinabalu','Grace Chapel',
       'Foh Sang','E-West','Taman Kinabalu','City Mall','Bunga Raja',
       'Iramanis Commercial Centre','Metro Town','OPP BSA','Puh Toh Si',
       'Taman Cempaka','Likas Plaza','OPP Pintu Masjid Bandaraya','Masjid Bandaraya',
-      'McD Anjung Selera','KK Sentral'
+      'McD Anjung Selera','Anjung Selera','Menara Kinabalu','Innoprise','KPKPS',
+      'UMS','1 Borneo','Kg. Delima','Alamesra I','OPP 1 Borneo','Alamesra II',
+      'OPP KPKPS','OPP Innoprise','OPP Anjung Selera','Maksak','Tamu KPD',
+      'Pelabuhan Lama','Mosque Valley','Holiday Inn'
     ]
   },
   S03: {
-    name: 'S03', label: 'Terminal Manggatal ↔ KK Sentral', distance: '38.34 km',
-    available: false,
+    name: 'S03', label: 'Terminal Menggatal Loop', distance: '38.34 km',
+    available: true,
     availableFrom: 'July 2026',
-    outbound: [
-      'Terminal Manggatal','Klinik Kesihatan Manggatal','UCA','Desa Kastam',
-      'Eco Park','Kg. Delima','Akademi Bomba','1 Sulaman','Kingfisher Sulaman',
-      'KFC Sulaman','Kg. Delima','1 Borneo','UMS','KPKPS','Innoprise',
-      'Menara Kinabalu','Masjid Bandaraya','McD Anjung Selera','Masjid Bandaraya',
-      'Taman Awam Teluk Likas','Bulatan Istiadat','Sabah Energy','SICC','DBKK',
-      'Wisma Budaya','Chung Hwa KK'
-    ],
-    inbound: [
-      'Chung Hwa KK','SK Darau','Manggatal Plaza','Bigwheel-Sg. Darau',
-      'SK Lok Yuk Inanam','EG Mall','Opp Kilang Papan Hiong Tiong',
+    stops: [
+      'Terminal Menggatal','SK Darau','Menggatal Plaza','Bigwheel-Sg. Darau',
+      'SK Lok Yuk Inanam','EG Mall','OPP Kilang Papan Hiong Tiong',
       'Wisma Chu Tai Seng','FBN','Visa Light Industrial','Puh Toh Si',
-      'Taman Cempaka','Plaza Juta','Opp Wisma Kosan','Chanyai Villa',
+      'Taman Cempaka','Plaza Juta','OPP Wisma Kosan','Chanyai Villa',
       'SDA Likas','OPP SM Shan Tao','Taman Winley Estate','Basel Likas',
       'Kian Kok','Taman Keramat I','Taman Keramat II','Sunny Garden',
-      'OPP Jabatan Audit','KK Sentral'
+      'OPP Jabatan Audit','KK Sentral','Chung Hwa KK','Wisma Budaya','DBKK',
+      'SICC','Sabah Energy','Bulatan Istiadat','Taman Awam Teluk Likas',
+      'Masjid Bandaraya','McD Anjung Selera','Masjid Bandaraya','Menara Kinabalu',
+      'Innoprise','KPKPS','UMS','1 Borneo','Kg. Delima','KFC Sulaman',
+      'Kingfisher Sulaman','1 Sulaman','Akademi Bomba','Kg. Delima','Eco Park',
+      'Desa Kastam','UCA','Klinik Kesihatan Menggatal'
     ]
   },
   S04: {
-    name: 'S04', label: 'Terminal Manggatal ↔ KK Sentral', distance: '38.66 km',
-    available: false,
+    name: 'S04', label: 'Terminal Menggatal Loop', distance: '38.66 km',
+    available: true,
     availableFrom: 'July 2026',
-    outbound: [
-      'Terminal Manggatal','Pekan Manggatal','Wisma Chan Furniture',
-      'Kim Heng- Sg. Darau','Opp SK Lok Yuk Inanam','Opp EG Mall','Hiong Tiong',
-      'Balai Polis Inanam','Opp Wisma Chu Tai Seng','Inanam Business Centre',
-      'Terminal Bas Bandaraya (Utara)','Khong Guan','Shell Likas','Wisma Kosan',
-      'Opp SDA Likas','SM Shan Tao','Basel Likas','Taman Yakim Jaya',
-      'Wisma Wanita','Sawit Kinabalu','Monocolo Boutique Hotel','Jabatan Audit'
-    ],
-    inbound: [
-      'Jabatan Audit','Wisma Chan Furniture','Pekan Manggatal',
-      'Opp Klinik Kesihatan Manggatal','SPRIM','BCCIM Sepanggar Church',
+    stops: [
+      'Terminal Menggatal','Wisma Chan Furniture','Pekan Menggatal',
+      'OPP Klinik Kesihatan Menggatal','SPRIM','BCCIM Sepanggar Church',
       'UA Apartment 2','UCA1','Taman Rimbunan Hijau','Alamesra I',
-      'Opp 1 Borneo','Alamesra II','Opp KPKPS','Opp Innoprise',
-      'Menara Kinabalu','Opp Anjung Selera','Maksak','Tamu KPD',
-      'Pelabuhan Lama','Mosque Valley','Holiday Inn','KK Sentral'
+      'OPP 1 Borneo','Alamesra II','OPP KPKPS','OPP Innoprise',
+      'Menara Kinabalu','OPP Anjung Selera','Maksak','Tamu KPD',
+      'Pelabuhan Lama','Mosque Valley','Holiday Inn','KK Sentral','Jabatan Audit',
+      'Monocolo Boutique Hotel','Sawit Kinabalu','Wisma Wanita','Taman Yakim Jaya',
+      'Basel Likas','SM Shan Tao','SDA Likas','Wisma Kosan','Shell Likas',
+      'Khong Guan','Terminal Bas Bandaraya (Utara)','Inanam Business Centre',
+      'Wisma Chu Tai Seng','Balai Polis Inanam','Hiong Tiong','EG Mall',
+      'SK Lok Yuk Inanam','Kim Heng- Sg. Darau'
     ]
   },
   S05: {
-    name: 'S05', label: 'KK Sentral City Loop', distance: '17.84 km',
+    name: 'S05', label: 'KK Sentral Loop', distance: '17.84 km',
     available: true,
-    outbound: [
+    stops: [
       'KK Sentral','Centre Point','Segama','Jesselton Mall',
       'Jesselton Point Ferry Terminal','Jesselton Quay','SICC',
       'Sabah Energy','Sabah Trade Centre','Kompleks Sukan Likas',
-      'Stadium Hoki','KPJ'
-    ],
-    inbound: [
-      'KPJ','HQE 2','Damai Plaza','E-West','Taman Kinabalu','Lido',
-      'Taman Fortuna','Vetro 11','HQE 1','Masjid Negeri','UTC',
-      'Sacred Heart','Sadong Jaya','KK Sentral'
+      'Stadium Hoki','KPJ','HQE 2','Damai Plaza','E-West','Taman Kinabalu',
+      'Lido','Taman Fortuna','Vetro 11','HQE 1','Masjid Negeri','UTC',
+      'Sacred Heart','Sadong Jaya'
     ]
   },
   S06: {
     name: 'S06', label: 'KK Sentral Loop', distance: '20.40 km',
-    available: false,
+    available: true,
     availableFrom: 'July 2026',
-    outbound: [
-      'KK Sentral','Holiday Inn','Mosque Valley','Pelabuhan Lama','Tamu KPD',
-      'Likas Square','Stadium Likas','Opp Stadium Hoki','Tahung Shin',
-      'Dewan Damai','KPJ','Foh Sang'
-    ],
-    inbound: [
-      'Foh Sang','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
-      'Wisma Hasil','Kereta Api Sembulan','Kolej Sabah','Opp HQE 1',
-      'Muzium','Arkib Negeri Sabah','Luyang Plaza','KK Sentral'
+    stops: [
+      'KK Sentral','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
+      'Wisma Hasil','Kereta Api Sembulan','Kolej Sabah','OPP HQE 1',
+      'Muzium','Arkib Negeri Sabah','Luyang Plaza','Foh Sang','KPJ',
+      'Dewan Damai','Tahung Shin','Stadium Hoki','Stadium Likas','Likas Square',
+      'Tamu KPD','Pelabuhan Lama','Mosque Valley','Holiday Inn'
     ]
   },
   S07: {
     name: 'S07', label: 'KK Sentral Loop', distance: '20.00 km',
-    available: false,
+    available: true,
     availableFrom: 'July 2026',
-    outbound: [
-      'KK Sentral','Sadong Jaya','Sacred Heart','UTC','Masjid Negeri',
-      'HQE 1','Vetro 11','Taman Fortuna','Lido','88 Market',
-      'Kepayan Ridge','Opp RTM'
-    ],
-    inbound: [
-      'Opp RTM','Sutera Avenue','Taman Sempelang','Aeropod','Taman Winly',
+    stops: [
+      'KK Sentral','Sutera Avenue','Taman Sempelang','Aeropod','Taman Winly',
       'IPK Sabah','Pahlawan','Jejantas KKIA','KKIA','Millenium Centre',
-      'Taman Olivia','KK Sentral'
+      'Taman Olivia','OPP RTM','Kepayan Ridge','88 Market','Lido',
+      'Taman Fortuna','Vetro 11','HQE 1','Masjid Negeri','UTC',
+      'Sacred Heart','Sadong Jaya'
     ]
   },
   S08: {
     name: 'S08', label: 'KK Sentral Loop', distance: '20.00 km',
-    available: false,
+    available: true,
     availableFrom: 'July 2026',
-    outbound: [
-      'KK Sentral','Imago','Sutera Harbour','PERKESO','Bengkel JKR',
-      'KKIA','Kepayan Commercial Centre','Petronas Kg. Matambai','RTM',
-      'Open University Malaysia','Lido Avenue'
-    ],
-    inbound: [
-      'Lido Avenue','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
-      'Wisma Hasil','Kereta Api Sembulan','Kolej Sabah','Opp HQE 1',
-      'Muzium','Arkib Negeri Sabah','KK Sentral'
+    stops: [
+      'KK Sentral','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
+      'Wisma Hasil','Kereta Api Sembulan','Kolej Sabah','OPP HQE 1',
+      'Muzium','Arkib Negeri Sabah','Lido Avenue','Open University Malaysia',
+      'RTM','Petronas Kg. Matambai','Kepayan Commercial Centre','KKIA',
+      'Bengkel JKR','PERKESO','Sutera Harbour','Imago'
     ]
   }
 };
@@ -231,7 +214,7 @@ const ALIASES = {
 };
 
 Object.values(ROUTES).forEach(r => {
-  [...r.outbound, ...r.inbound].forEach(s => {
+  r.stops.forEach(s => {
     if (!ALL_STOPS.find(x => x.name === s)) ALL_STOPS.push({ name: s });
   });
 });
@@ -266,8 +249,7 @@ function fuzzySearch(input) {
 function getStopMeta(stopName) {
   const meta = [];
   Object.entries(ROUTES).forEach(([code, r]) => {
-    if (r.outbound.includes(stopName)) meta.push({ route: code, dir: 'Outbound' });
-    if (r.inbound.includes(stopName)) meta.push({ route: code, dir: 'Inbound' });
+    if (r.stops.includes(stopName)) meta.push({ route: code });
   });
   return meta;
 }
@@ -278,27 +260,86 @@ function findRoute(fromStop, toStop) {
 
   const results = [];
 
-  // Check each route, each direction for DIRECT routes
+  // Check each route for DIRECT routes (circular loop)
   Object.entries(ROUTES).forEach(([code, r]) => {
     // Skip unavailable routes
     if (!r.available) return;
     
-    ['outbound','inbound'].forEach(dir => {
-      const stops = r[dir];
-      const fi = stops.indexOf(fromStop);
-      const ti = stops.indexOf(toStop);
-      if (fi !== -1 && ti !== -1 && fi < ti) {
+    const stops = r.stops;
+    const fi = stops.indexOf(fromStop);
+    const ti = stops.indexOf(toStop);
+    
+    if (fi !== -1 && ti !== -1) {
+      // Calculate distance going forward around the loop
+      let numStops, routeStops;
+      if (fi < ti) {
+        // Direct forward path
+        numStops = ti - fi;
+        routeStops = stops.slice(fi, ti + 1);
+      } else {
+        // Wrap around the loop (go past the end and back to start)
+        numStops = (stops.length - fi) + ti;
+        routeStops = [...stops.slice(fi), stops[0], ...stops.slice(1, ti + 1)];
+      }
+      
+      // Check if route passes through major hubs and split into segments
+      const majorHubsPassed = [];
+      for (const [hubName, hubRoutes] of Object.entries(MAJOR_HUBS)) {
+        if (hubRoutes.includes(code) && routeStops.includes(hubName) && 
+            hubName !== fromStop && hubName !== toStop) {
+          majorHubsPassed.push(hubName);
+        }
+      }
+      
+      // If passing through major hubs, create segmented journey
+      if (majorHubsPassed.length > 0) {
+        const segments = [];
+        let currentStart = 0;
+        
+        majorHubsPassed.forEach(hubName => {
+          const hubIdx = routeStops.indexOf(hubName);
+          if (hubIdx > currentStart) {
+            segments.push({
+              from: routeStops[currentStart],
+              to: hubName,
+              stops: routeStops.slice(currentStart, hubIdx + 1),
+              numStops: hubIdx - currentStart
+            });
+            currentStart = hubIdx;
+          }
+        });
+        
+        // Add final segment from last hub to destination
+        if (currentStart < routeStops.length - 1) {
+          segments.push({
+            from: routeStops[currentStart],
+            to: toStop,
+            stops: routeStops.slice(currentStart),
+            numStops: routeStops.length - 1 - currentStart
+          });
+        }
+        
+        results.push({
+          type: 'direct_segmented',
+          route: code,
+          stops: routeStops,
+          numStops: numStops,
+          boardAt: fromStop,
+          alightAt: toStop,
+          segments: segments
+        });
+      } else {
+        // No major hubs, regular direct route
         results.push({
           type: 'direct',
           route: code,
-          direction: dir,
-          stops: stops.slice(fi, ti + 1),
-          numStops: ti - fi,
+          stops: routeStops,
+          numStops: numStops,
           boardAt: fromStop,
           alightAt: toStop
         });
       }
-    });
+    }
   });
 
   if (results.length > 0) {
@@ -306,200 +347,95 @@ function findRoute(fromStop, toStop) {
     return { type: 'found', options: results };
   }
 
-  // Try SAME-ROUTE TRANSFERS (e.g., SICC to Damai Plaza via KPJ on S05)
-  const sameRouteTransfers = [];
-  Object.entries(ROUTES).forEach(([code, r]) => {
-    // Skip unavailable routes
-    if (!r.available) return;
-    ['outbound','inbound'].forEach(dirA => {
-      ['outbound','inbound'].forEach(dirB => {
-        if (dirA === dirB) return; // Skip same direction (already checked above)
-        
-        const stopsA = r[dirA];
-        const stopsB = r[dirB];
-        const fi = stopsA.indexOf(fromStop);
-        const ti = stopsB.indexOf(toStop);
-        
-        if (fi !== -1 && ti !== -1) {
-          // Find common stops between the two directions (potential transfer points)
-          const commonStops = stopsA.filter(s => stopsB.includes(s));
-          
-          commonStops.forEach(transferStop => {
-            const transferIdxA = stopsA.indexOf(transferStop);
-            const transferIdxB = stopsB.indexOf(transferStop);
-            
-            // Check if we can reach transfer point from origin and destination from transfer point
-            if (fi < transferIdxA && transferIdxB < ti) {
-              sameRouteTransfers.push({
-                type: 'transfer',
-                sameRoute: true,
-                leg1: { 
-                  route: code, 
-                  direction: dirA, 
-                  stops: stopsA.slice(fi, transferIdxA + 1), 
-                  boardAt: fromStop, 
-                  alightAt: transferStop 
-                },
-                leg2: { 
-                  route: code, 
-                  direction: dirB, 
-                  stops: stopsB.slice(transferIdxB, ti + 1), 
-                  boardAt: transferStop, 
-                  alightAt: toStop 
-                },
-                transferPoint: transferStop,
-                totalStops: (transferIdxA - fi) + (ti - transferIdxB)
-              });
-            }
-          });
-        }
-      });
-    });
-  });
-
-  // Try MULTI-ROUTE TRANSFERS via any common stop
+  // Try MULTI-ROUTE TRANSFERS via common stops
   const multiRouteTransfers = [];
   Object.entries(ROUTES).forEach(([codeA, rA]) => {
-    // Skip unavailable routes
     if (!rA.available) return;
-    ['outbound','inbound'].forEach(dirA => {
-      const stopsA = rA[dirA];
-      const fi = stopsA.indexOf(fromStop);
-      if (fi === -1) return;
+    
+    const stopsA = rA.stops;
+    const fi = stopsA.indexOf(fromStop);
+    if (fi === -1) return;
+    
+    Object.entries(ROUTES).forEach(([codeB, rB]) => {
+      if (codeA === codeB || !rB.available) return;
       
-      Object.entries(ROUTES).forEach(([codeB, rB]) => {
-        if (codeA === codeB) return; // Skip same route (handled above)
-        if (!rB.available) return; // Skip unavailable routes
+      const stopsB = rB.stops;
+      const ti = stopsB.indexOf(toStop);
+      if (ti === -1) return;
+      
+      // Find common stops between routes
+      const commonStops = stopsA.filter(s => stopsB.includes(s));
+      
+      commonStops.forEach(transferStop => {
+        const t1Idx = stopsA.indexOf(transferStop);
+        const t2Idx = stopsB.indexOf(transferStop);
         
-        ['outbound','inbound'].forEach(dirB => {
-          const stopsB = rB[dirB];
-          const ti = stopsB.indexOf(toStop);
-          if (ti === -1) return;
-          
-          // Find all common stops between these two route segments
-          const commonStops = stopsA.filter(s => stopsB.includes(s));
-          
-          commonStops.forEach(transferStop => {
-            const transferIdxA = stopsA.indexOf(transferStop);
-            const transferIdxB = stopsB.indexOf(transferStop);
-            
-            // Check if we can reach transfer point from origin and destination from transfer point
-            if (fi < transferIdxA && transferIdxB < ti) {
-              multiRouteTransfers.push({
-                type: 'transfer',
-                sameRoute: false,
-                leg1: { 
-                  route: codeA, 
-                  direction: dirA, 
-                  stops: stopsA.slice(fi, transferIdxA + 1), 
-                  boardAt: fromStop, 
-                  alightAt: transferStop 
-                },
-                leg2: { 
-                  route: codeB, 
-                  direction: dirB, 
-                  stops: stopsB.slice(transferIdxB, ti + 1), 
-                  boardAt: transferStop, 
-                  alightAt: toStop 
-                },
-                transferPoint: transferStop,
-                totalStops: (transferIdxA - fi) + (ti - transferIdxB)
-              });
-            }
-          });
+        // Calculate leg 1 stops (circular)
+        let leg1Stops, leg1NumStops;
+        if (fi < t1Idx) {
+          leg1NumStops = t1Idx - fi;
+          leg1Stops = stopsA.slice(fi, t1Idx + 1);
+        } else if (fi > t1Idx) {
+          leg1NumStops = (stopsA.length - fi) + t1Idx;
+          leg1Stops = [...stopsA.slice(fi), stopsA[0], ...stopsA.slice(1, t1Idx + 1)];
+        } else {
+          return; // Same stop
+        }
+        
+        // Calculate leg 2 stops (circular)
+        let leg2Stops, leg2NumStops;
+        if (t2Idx < ti) {
+          leg2NumStops = ti - t2Idx;
+          leg2Stops = stopsB.slice(t2Idx, ti + 1);
+        } else if (t2Idx > ti) {
+          leg2NumStops = (stopsB.length - t2Idx) + ti;
+          leg2Stops = [...stopsB.slice(t2Idx), stopsB[0], ...stopsB.slice(1, ti + 1)];
+        } else {
+          return; // Same stop
+        }
+        
+        multiRouteTransfers.push({
+          type: 'transfer',
+          leg1: { 
+            route: codeA, 
+            stops: leg1Stops, 
+            boardAt: fromStop, 
+            alightAt: transferStop 
+          },
+          leg2: { 
+            route: codeB, 
+            stops: leg2Stops, 
+            boardAt: transferStop, 
+            alightAt: toStop 
+          },
+          transferPoint: transferStop,
+          totalStops: leg1NumStops + leg2NumStops
         });
       });
     });
   });
-
-  // Combine all transfer options
-  const allTransfers = [...sameRouteTransfers, ...multiRouteTransfers];
   
-  if (allTransfers.length > 0) {
-    // Sort by total stops (shortest journey first)
-    allTransfers.sort((a,b) => a.totalStops - b.totalStops);
-    return { type: 'found', options: allTransfers };
+  if (multiRouteTransfers.length > 0) {
+    multiRouteTransfers.sort((a,b) => a.totalStops - b.totalStops);
+    return { type: 'found', options: multiRouteTransfers };
   }
 
-  // Try 2-TRANSFER (3-leg) journeys for complex routes
-  const twoTransferJourneys = [];
-  Object.entries(ROUTES).forEach(([codeA, rA]) => {
-    // Skip unavailable routes
-    if (!rA.available) return;
-    ['outbound','inbound'].forEach(dirA => {
-      const stopsA = rA[dirA];
-      const fi = stopsA.indexOf(fromStop);
-      if (fi === -1) return;
-      
-      // Find all possible first transfer points
-      Object.entries(ROUTES).forEach(([codeB, rB]) => {
-        if (!rB.available) return; // Skip unavailable routes
-        ['outbound','inbound'].forEach(dirB => {
-          const stopsB = rB[dirB];
-          const commonAB = stopsA.filter(s => stopsB.includes(s));
-          
-          commonAB.forEach(transfer1 => {
-            const t1IdxA = stopsA.indexOf(transfer1);
-            const t1IdxB = stopsB.indexOf(transfer1);
-            if (fi >= t1IdxA) return; // Can't reach transfer1 from origin
-            
-            // Find second leg to final transfer point
-            Object.entries(ROUTES).forEach(([codeC, rC]) => {
-              if (!rC.available) return; // Skip unavailable routes
-              ['outbound','inbound'].forEach(dirC => {
-                const stopsC = rC[dirC];
-                const ti = stopsC.indexOf(toStop);
-                if (ti === -1) return;
-                
-                const commonBC = stopsB.filter(s => stopsC.includes(s));
-                
-                commonBC.forEach(transfer2 => {
-                  const t2IdxB = stopsB.indexOf(transfer2);
-                  const t2IdxC = stopsC.indexOf(transfer2);
-                  if (t1IdxB >= t2IdxB || t2IdxC >= ti) return; // Invalid path
-                  
-                  twoTransferJourneys.push({
-                    type: 'two_transfer',
-                    leg1: {
-                      route: codeA,
-                      direction: dirA,
-                      stops: stopsA.slice(fi, t1IdxA + 1),
-                      boardAt: fromStop,
-                      alightAt: transfer1
-                    },
-                    leg2: {
-                      route: codeB,
-                      direction: dirB,
-                      stops: stopsB.slice(t1IdxB, t2IdxB + 1),
-                      boardAt: transfer1,
-                      alightAt: transfer2
-                    },
-                    leg3: {
-                      route: codeC,
-                      direction: dirC,
-                      stops: stopsC.slice(t2IdxC, ti + 1),
-                      boardAt: transfer2,
-                      alightAt: toStop
-                    },
-                    transfer1: transfer1,
-                    transfer2: transfer2,
-                    totalStops: (t1IdxA - fi) + (t2IdxB - t1IdxB) + (ti - t2IdxC)
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
+  return { type: 'not_found' };
+}
 
-  if (twoTransferJourneys.length > 0) {
-    twoTransferJourneys.sort((a,b) => a.totalStops - b.totalStops);
-    return { type: 'found', options: twoTransferJourneys };
+// Helper function to calculate circular distance
+function getCircularStops(stops, fromIdx, toIdx) {
+  if (fromIdx < toIdx) {
+    return {
+      numStops: toIdx - fromIdx,
+      routeStops: stops.slice(fromIdx, toIdx + 1)
+    };
+  } else {
+    return {
+      numStops: (stops.length - fromIdx) + toIdx,
+      routeStops: [...stops.slice(fromIdx), stops[0], ...stops.slice(1, toIdx + 1)]
+    };
   }
-
-  return { type: 'notfound' };
 }
 
 function estimateDuration(numStops) {
@@ -531,14 +467,14 @@ function renderResult(fromStop, toStop) {
   const best = result.options[0];
   const isTransfer = best.type === 'transfer';
   const isTwoTransfer = best.type === 'two_transfer';
+  const isSegmented = best.type === 'direct_segmented';
   const totalStops = (isTransfer || isTwoTransfer) ? best.totalStops : best.numStops;
   const duration = estimateDuration(totalStops);
 
   let stepsHTML = '';
 
-  if (!isTransfer && !isTwoTransfer) {
-    const dirLabel = best.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const intermediate = best.stops.slice(1, -1);
+  if (isSegmented) {
+    // Render segmented journey (same route, split at major hubs)
     stepsHTML = `
       <div class="step">
         <div class="step-dot dot-start">
@@ -546,9 +482,64 @@ function renderResult(fromStop, toStop) {
         </div>
         <div class="step-content">
           <div class="step-title">Board at ${best.boardAt}</div>
-          <div class="step-desc">Wait for Bas Pink <strong>${best.route}</strong> heading ${dirLabel}</div>
+          <div class="step-desc">Wait for Bas Pink <strong>${best.route}</strong></div>
           <span class="step-tag tag-pink">${best.route}</span>
-          <span class="step-tag tag-blue">${dirLabel}</span>
+        </div>
+      </div>`;
+    
+    // Render each segment
+    best.segments.forEach((segment, idx) => {
+      const isLastSegment = idx === best.segments.length - 1;
+      stepsHTML += `
+      <div class="step">
+        <div class="step-dot dot-bus">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="13" x2="6" y2="13" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="13" x2="18" y2="13" stroke-width="3" stroke-linecap="round"/><path d="M6 19v1m12-1v1"/></svg>
+        </div>
+        <div class="step-content">
+          <div class="step-title">${segment.from} → ${segment.to}</div>
+          <div class="step-desc">Stay on <strong>${best.route}</strong> for ${segment.numStops} stop${segment.numStops>1?'s':''}</div>
+          <span class="step-tag tag-blue">${segment.numStops} stop${segment.numStops>1?'s':''}</span>
+          ${!isLastSegment ? '<span class="step-tag tag-orange">🏢 Major Hub</span>' : ''}
+          <div class="stops-strip">
+            <div class="stops-strip-label">Stop sequence</div>
+            <div class="stops-flow">
+              ${segment.stops.map((s,i) => {
+                const isHub = !isLastSegment && i === segment.stops.length - 1;
+                const cssClass = i===0 ? 's-board' : isHub ? 's-hub' : i===segment.stops.length-1 ? 's-alight' : '';
+                return `
+                  <span class="s-stop ${cssClass}">${s}${isHub ? ' 🏢' : ''}</span>
+                  ${i < segment.stops.length-1 ? '<span class="s-arrow">›</span>' : ''}
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    });
+    
+    stepsHTML += `
+      <div class="step">
+        <div class="step-dot dot-arrive">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="step-content" style="padding-bottom:0">
+          <div class="step-title">Alight at ${best.alightAt}</div>
+          <div class="step-desc">You have arrived at your destination.</div>
+          <span class="step-tag tag-green">✓ Arrived</span>
+        </div>
+      </div>`;
+  } else if (!isTransfer && !isTwoTransfer) {
+    const intermediate = best.stops.slice(1, -1);
+    
+    stepsHTML = `
+      <div class="step">
+        <div class="step-dot dot-start">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
+        </div>
+        <div class="step-content">
+          <div class="step-title">Board at ${best.boardAt}</div>
+          <div class="step-desc">Wait for Bas Pink <strong>${best.route}</strong></div>
+          <span class="step-tag tag-pink">${best.route}</span>
         </div>
       </div>
       ${intermediate.length > 0 ? `
@@ -558,7 +549,7 @@ function renderResult(fromStop, toStop) {
         </div>
         <div class="step-content">
           <div class="step-title">Ride ${best.numStops} stop${best.numStops>1?'s':''}</div>
-          <div class="step-desc">Stay on the bus through ${intermediate.length} stop${intermediate.length>1?'s':''} until <strong>${best.alightAt}</strong></div>
+          <div class="step-desc">Stay on the bus until <strong>${best.alightAt}</strong></div>
           <div class="stops-strip">
             <div class="stops-strip-label">Stop sequence</div>
             <div class="stops-flow">
@@ -914,36 +905,29 @@ function quickFill(from, to) {
 function showModal(code) {
   const r = ROUTES[code];
   document.getElementById('modalTitle').textContent = `${code} — ${r.label}`;
+  document.getElementById('modalMeta').textContent = r.available
+    ? `${r.distance} · Free · ~6AM–10PM · Every 20–30 min`
+    : `${r.distance} · Coming ${r.availableFrom}`;
   
-  if (!r.available) {
-    document.getElementById('modalMeta').textContent = `Coming ${r.availableFrom}`;
-    document.getElementById('modalBody').innerHTML = `
-      <div style="text-align:center;padding:2rem 1rem;">
-        <div style="font-size:48px;margin-bottom:1rem;">🚧</div>
-        <h3 style="font-size:16px;color:var(--text);margin-bottom:8px;">Route Not Yet Available</h3>
-        <p style="font-size:13px;color:var(--muted);line-height:1.6;">
-          This route is scheduled to launch in <strong>${r.availableFrom}</strong>.<br>
-          Route details and stops will be added once the service begins.
-        </p>
-        <div style="margin-top:1.5rem;padding:12px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:8px;">
-          <p style="font-size:12px;color:#e65c00;margin:0;">
-            💡 Currently, only <strong>S01</strong> and <strong>S05</strong> routes are operational.
-          </p>
-        </div>
-      </div>`;
-  } else {
-    document.getElementById('modalMeta').textContent = `${r.distance} · Free · ~6AM–10PM · Every 20–30 min`;
-    document.getElementById('modalBody').innerHTML = `
-      <div class="modal-dir-label">→ Outbound stops (${r.outbound.length} stops)</div>
-      <div class="stops-list">${r.outbound.map((s,i) =>
-        `<div class="s-row"><div class="s-dot ${i===0||i===r.outbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
-      ).join('')}</div>
-      <div class="modal-dir-label">← Inbound stops (${r.inbound.length} stops)</div>
-      <div class="stops-list">${r.inbound.map((s,i) =>
-        `<div class="s-row"><div class="s-dot ${i===0||i===r.inbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
-      ).join('')}</div>`;
-  }
+  // Build route stops display (circular loop)
+  const stopsHTML = `
+    <div class="modal-dir-label">🔄 Loop stops (${r.stops.length} stops)</div>
+    <div class="stops-list">${r.stops.map((s,i) =>
+      `<div class="s-row"><div class="s-dot ${i===0?'terminal':''}"></div><div class="s-name">${s}</div></div>`
+    ).join('')}</div>`;
+
+  // Add coming soon banner for unavailable routes
+  const comingSoonBanner = !r.available ? `
+    <div style="margin-bottom:1rem;padding:12px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:8px;text-align:center;">
+      <p style="font-size:13px;color:#e65c00;margin:0;font-weight:600;">
+        🚧 This route will be available starting <strong>${r.availableFrom}</strong>
+      </p>
+      <p style="font-size:11px;color:#e65c00;margin:4px 0 0 0;">
+        Currently, only S01 and S05 routes are operational.
+      </p>
+    </div>` : '';
   
+  document.getElementById('modalBody').innerHTML = comingSoonBanner + stopsHTML;
   document.getElementById('stopsModal').classList.add('open');
 }
 
