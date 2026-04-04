@@ -585,9 +585,6 @@ function renderResult(fromStop, toStop) {
         </div>
       </div>`;
   } else if (isTwoTransfer) {
-    const dir1 = best.leg1.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const dir2 = best.leg2.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const dir3 = best.leg3.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
     
     stepsHTML = `
       <div class="step">
@@ -596,9 +593,8 @@ function renderResult(fromStop, toStop) {
         </div>
         <div class="step-content">
           <div class="step-title">Board at ${best.leg1.boardAt}</div>
-          <div class="step-desc">Take Bas Pink <strong>${best.leg1.route}</strong> ${dir1} towards ${best.transfer1}</div>
+          <div class="step-desc">Take Bas Pink <strong>${best.leg1.route}</strong> towards ${best.transfer1}</div>
           <span class="step-tag tag-pink">${best.leg1.route}</span>
-          <span class="step-tag tag-blue">${dir1}</span>
           <div class="stops-strip">
             <div class="stops-strip-label">Leg 1 stops (${best.leg1.stops.length - 1} stop${best.leg1.stops.length > 2 ? 's' : ''})</div>
             <div class="stops-flow">
@@ -616,7 +612,7 @@ function renderResult(fromStop, toStop) {
         </div>
         <div class="step-content">
           <div class="step-title">Transfer #1 at ${best.transfer1}</div>
-          <div class="step-desc">Alight and wait for Bas Pink <strong>${best.leg2.route}</strong> ${dir2}</div>
+          <div class="step-desc">Alight and wait for Bas Pink <strong>${best.leg2.route}</strong></div>
           <span class="step-tag tag-orange">Transfer 1 of 2</span>
         </div>
       </div>
@@ -628,7 +624,6 @@ function renderResult(fromStop, toStop) {
           <div class="step-title">Board ${best.leg2.route} at ${best.transfer1}</div>
           <div class="step-desc">Ride towards ${best.transfer2}</div>
           <span class="step-tag tag-pink">${best.leg2.route}</span>
-          <span class="step-tag tag-blue">${dir2}</span>
           <div class="stops-strip">
             <div class="stops-strip-label">Leg 2 stops (${best.leg2.stops.length - 1} stop${best.leg2.stops.length > 2 ? 's' : ''})</div>
             <div class="stops-flow">
@@ -646,7 +641,7 @@ function renderResult(fromStop, toStop) {
         </div>
         <div class="step-content">
           <div class="step-title">Transfer #2 at ${best.transfer2}</div>
-          <div class="step-desc">Alight and wait for Bas Pink <strong>${best.leg3.route}</strong> ${dir3}</div>
+          <div class="step-desc">Alight and wait for Bas Pink <strong>${best.leg3.route}</strong></div>
           <span class="step-tag tag-orange">Transfer 2 of 2</span>
         </div>
       </div>
@@ -658,7 +653,6 @@ function renderResult(fromStop, toStop) {
           <div class="step-title">Board ${best.leg3.route} at ${best.transfer2}</div>
           <div class="step-desc">Final leg towards <strong>${best.leg3.alightAt}</strong></div>
           <span class="step-tag tag-pink">${best.leg3.route}</span>
-          <span class="step-tag tag-blue">${dir3}</span>
           <div class="stops-strip">
             <div class="stops-strip-label">Leg 3 stops (${best.leg3.stops.length - 1} stop${best.leg3.stops.length > 2 ? 's' : ''})</div>
             <div class="stops-flow">
@@ -681,13 +675,11 @@ function renderResult(fromStop, toStop) {
         </div>
       </div>`;
   } else {
-    const dir1 = best.leg1.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const dir2 = best.leg2.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
     const transferPoint = best.transferPoint || best.leg1.alightAt;
     const isSameRoute = best.sameRoute || best.leg1.route === best.leg2.route;
     const transferDesc = isSameRoute 
-      ? `Stay at ${transferPoint} and wait for the same bus (${best.leg2.route}) going ${dir2}`
-      : `Alight at ${transferPoint} and wait for Bas Pink <strong>${best.leg2.route}</strong> ${dir2}`;
+      ? `Stay at ${transferPoint} and wait for the same bus (${best.leg2.route})`
+      : `Alight at ${transferPoint} and wait for Bas Pink <strong>${best.leg2.route}</strong>`;
     
     stepsHTML = `
       <div class="step">
@@ -696,9 +688,8 @@ function renderResult(fromStop, toStop) {
         </div>
         <div class="step-content">
           <div class="step-title">Board at ${best.leg1.boardAt}</div>
-          <div class="step-desc">Take Bas Pink <strong>${best.leg1.route}</strong> ${dir1} towards ${transferPoint}</div>
+          <div class="step-desc">Take Bas Pink <strong>${best.leg1.route}</strong> towards ${transferPoint}</div>
           <span class="step-tag tag-pink">${best.leg1.route}</span>
-          <span class="step-tag tag-blue">${dir1}</span>
           <div class="stops-strip">
             <div class="stops-strip-label">Leg 1 stops</div>
             <div class="stops-flow">
@@ -728,7 +719,6 @@ function renderResult(fromStop, toStop) {
           <div class="step-title">Board ${best.leg2.route} at ${transferPoint}</div>
           <div class="step-desc">Ride towards <strong>${best.leg2.alightAt}</strong></div>
           <span class="step-tag tag-pink">${best.leg2.route}</span>
-          <span class="step-tag tag-blue">${dir2}</span>
           <div class="stops-strip">
             <div class="stops-strip-label">Leg 2 stops</div>
             <div class="stops-flow">
@@ -822,8 +812,7 @@ function showNotFound(query, role) {
   const upcomingRoutes = [];
   Object.entries(ROUTES).forEach(([code, r]) => {
     if (!r.available) {
-      const allStops = [...r.outbound, ...r.inbound];
-      if (allStops.some(s => normalise(s) === normalise(query))) {
+      if (r.stops.some(s => normalise(s) === normalise(query))) {
         upcomingRoutes.push({ code, availableFrom: r.availableFrom });
       }
     }
