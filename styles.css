@@ -49,7 +49,7 @@ main { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
 .autocomplete-route-tag { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; background: var(--pink-light); color: var(--pink); border: 1px solid #f5c0de; flex-shrink: 0; }
 .autocomplete-dir { font-size: 10px; color: var(--muted); flex-shrink: 0; }
 
-.swap-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; margin: -2px auto 8px; transition: all .2s; color: var(--muted); }
+.swap-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; margin: -2px auto 8px; transition: all .2s; color: var(--muted); margin-top: 8px; }
 .swap-btn:hover { border-color: var(--pink); color: var(--pink); transform: rotate(180deg); }
 
 .search-btn { width: 100%; padding: 13px; background: var(--pink); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background .15s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; }
