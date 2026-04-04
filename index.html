@@ -1,1209 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Naik Bas — Bas Pink Sabah</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --pink: #e0137a;
-    --pink-dark: #b00f61;
-    --pink-light: #fce8f3;
-    --pink-mid: #f53fa0;
-    --bg: #fdf7fb;
-    --card: #ffffff;
-    --text: #1a1a18;
-    --muted: #6b6b62;
-    --border: #f0dcea;
-    --radius: 16px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-  header { background: var(--pink); padding: 1.1rem 1.5rem; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(224,19,122,0.25); }
-  .header-inner { max-width: 680px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
-  .logo-icon { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .header-text .title { font-family: 'Fraunces', serif; font-size: 20px; color: #fff; letter-spacing: -0.3px; }
-  .header-text .sub { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 1px; }
-  .header-badge { margin-left: auto; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; background: rgba(255,255,255,0.18); color: #fff; border: 1px solid rgba(255,255,255,0.25); white-space: nowrap; }
-
-  main { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
-
-  .card { background: var(--card); border-radius: var(--radius); padding: 1.25rem; border: 1px solid var(--border); margin-bottom: 1rem; box-shadow: 0 2px 12px rgba(224,19,122,0.05); }
-
-  /* ROUTE PILLS */
-  .section-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
-  .route-pills { display: flex; gap: 8px; flex-wrap: wrap; }
-  .route-pill { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px; background: var(--pink-light); border: 1px solid #f5c0de; cursor: pointer; transition: all .15s; flex: 1; min-width: 140px; }
-  .route-pill:hover { background: #f8d0ea; border-color: var(--pink); }
-  .route-pill-num { font-size: 16px; font-weight: 700; color: var(--pink); font-family: 'Fraunces', serif; flex-shrink: 0; }
-  .route-pill-name { font-size: 12px; font-weight: 600; color: var(--text); }
-  .route-pill-info { font-size: 11px; color: var(--muted); margin-top: 1px; }
-
-  /* SEARCH */
-  .field-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
-  .input-wrap { position: relative; margin-bottom: 10px; }
-  .input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; }
-  .route-input { width: 100%; padding: 11px 12px 11px 38px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); outline: none; transition: border-color .15s; }
-  .route-input:focus { border-color: var(--pink-mid); background: #fff; }
-
-  /* AUTOCOMPLETE */
-  .autocomplete-list { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); z-index: 50; max-height: 220px; overflow-y: auto; display: none; }
-  .autocomplete-list.open { display: block; }
-  .autocomplete-item { padding: 9px 14px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
-  .autocomplete-item:last-child { border-bottom: none; }
-  .autocomplete-item:hover, .autocomplete-item.active { background: var(--pink-light); color: var(--pink-dark); }
-  .autocomplete-route-tag { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; background: var(--pink-light); color: var(--pink); border: 1px solid #f5c0de; flex-shrink: 0; }
-  .autocomplete-dir { font-size: 10px; color: var(--muted); flex-shrink: 0; }
-
-  .swap-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border); background: #fff; cursor: pointer; margin: -2px auto 8px; transition: all .2s; color: var(--muted); }
-  .swap-btn:hover { border-color: var(--pink); color: var(--pink); transform: rotate(180deg); }
-
-  .search-btn { width: 100%; padding: 13px; background: var(--pink); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background .15s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; }
-  .search-btn:hover { background: var(--pink-dark); }
-
-  .location-btn { width: 100%; padding: 8px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .15s; margin-top: 8px; margin-bottom: 4px; }
-  .location-btn:hover { background: var(--pink-light); border-color: var(--pink); color: var(--pink); }
-  .location-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-  /* QUICK CHIPS */
-  .quick-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
-  .quick-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }
-  .chip { font-size: 12px; padding: 5px 11px; border-radius: 20px; border: 1px solid var(--border); background: #fff; color: var(--muted); cursor: pointer; transition: all .15s; }
-  .chip:hover { border-color: var(--pink-mid); color: var(--pink); background: var(--pink-light); }
-
-  /* RESULT */
-  .result-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; box-shadow: 0 2px 12px rgba(224,19,122,0.08); animation: fadeUp .25s ease; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-
-  .result-header { background: var(--pink); padding: 1rem 1.25rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-  .result-route-label { font-size: 11px; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
-  .result-route-text { font-family: 'Fraunces', serif; font-size: 17px; color: #fff; line-height: 1.3; }
-  .result-summary { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 5px; line-height: 1.4; }
-  .result-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
-  .rbadge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
-  .rbadge-white { background: rgba(255,255,255,0.22); color: #fff; }
-  .rbadge-green { background: #d4f7e0; color: #0a6630; }
-
-  .result-body { padding: 1.25rem; }
-
-  /* STEPS */
-  .steps { display: flex; flex-direction: column; }
-  .step { display: flex; gap: 14px; position: relative; }
-  .step:not(:last-child)::after { content:''; position:absolute; left:15px; top:34px; bottom:-4px; width:2px; background: var(--border); }
-  .step-dot { width:32px; height:32px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; z-index:1; margin-top:2px; }
-  .dot-start { background: #e8f8ef; color: #0a6630; }
-  .dot-bus { background: var(--pink-light); color: var(--pink); }
-  .dot-transfer { background: #fff3e0; color: #e65c00; }
-  .dot-arrive { background: #fce4ec; color: #c2185b; }
-  .step-content { padding-bottom: 1.25rem; flex: 1; min-width: 0; }
-  .step-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
-  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-  .step-tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 5px; margin-top: 5px; margin-right: 4px; }
-  .tag-pink { background: var(--pink-light); color: var(--pink); }
-  .tag-green { background: #e8f8ef; color: #0a6630; }
-  .tag-blue { background: #e8f0fe; color: #3a6ee8; }
-  .tag-orange { background: #fff3e0; color: #e65c00; }
-
-  /* STOPS STRIP */
-  .stops-strip { margin-top: 8px; background: var(--bg); border-radius: 8px; padding: 8px 10px; border: 1px solid var(--border); }
-  .stops-strip-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; }
-  .stops-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 3px; }
-  .s-stop { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--pink-light); color: var(--pink-dark); border: 1px solid #f5c0de; }
-  .s-stop.s-board { background: var(--pink); color: #fff; border-color: var(--pink); }
-  .s-stop.s-alight { background: #fce4ec; color: #c2185b; border-color: #f8bbce; }
-  .s-arrow { font-size: 10px; color: var(--muted); }
-
-  /* FARE */
-  .fare-box { margin-top: 1rem; background: #e8f8ef; border-radius: 10px; padding: 1rem; border: 1px solid #b8e8cc; display: flex; align-items: center; justify-content: space-between; }
-  .fare-label { font-size: 13px; color: #2a7a50; }
-  .fare-amount { font-size: 20px; font-weight: 700; color: #0a6630; font-family: 'Fraunces', serif; }
-  .fare-sub { font-size: 11px; color: #2a7a50; margin-top: 1px; }
-
-  /* TIPS */
-  .tips-box { margin-top: 1rem; background: var(--pink-light); border-radius: 10px; padding: 1rem; border: 1px solid #f5c0de; }
-  .tips-title { font-size: 12px; font-weight: 600; color: var(--pink); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
-  .tip-item { font-size: 13px; color: #7a1048; line-height: 1.5; margin-bottom: 4px; padding-left: 14px; position: relative; }
-  .tip-item::before { content: '•'; position: absolute; left: 0; color: var(--pink); }
-
-  .disclaimer { margin-top: 1rem; font-size: 11px; color: var(--muted); background: #f7f5f0; border-radius: 8px; padding: 8px 12px; border: 1px solid #e4e2da; line-height: 1.5; }
-
-  /* NOT FOUND */
-  .not-found { background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius); padding: 1.5rem; text-align: center; animation: fadeUp .25s ease; }
-  .not-found h3 { font-size: 16px; font-weight: 600; color: #92400e; margin-bottom: 8px; }
-  .not-found p { font-size: 13px; color: #78350f; line-height: 1.6; }
-  .not-found .suggestions { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
-  .not-found .sug-chip { font-size: 12px; padding: 4px 10px; border-radius: 20px; background: #fef3c7; border: 1px solid #fde68a; color: #92400e; cursor: pointer; }
-  .not-found .sug-chip:hover { background: #fde68a; }
-
-  /* EMPTY STATE */
-  .empty-state { text-align: center; padding: 2rem 1rem; color: var(--muted); }
-  .empty-state svg { margin: 0 auto 12px; display: block; opacity: .2; }
-  .empty-state p { font-size: 14px; }
-  .empty-state .em-sub { font-size: 12px; margin-top: 4px; }
-
-  /* STOPS MODAL */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; display: none; align-items: center; justify-content: center; padding: 1rem; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border-radius: var(--radius); padding: 1.5rem; max-width: 460px; width: 100%; max-height: 84vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
-  .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-  .modal-title { font-family: 'Fraunces', serif; font-size: 18px; color: var(--pink); }
-  .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); line-height: 1; }
-  .modal-meta { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
-  .modal-dir-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 14px 0 6px; }
-  .stops-list { display: flex; flex-direction: column; }
-  .s-row { display: flex; align-items: center; gap: 10px; padding: 4px 0; position: relative; }
-  .s-row:not(:last-child)::after { content:''; position:absolute; left:7px; top:20px; bottom:-4px; width:2px; background:#f5c0de; }
-  .s-dot { width:16px; height:16px; border-radius:50%; background:var(--pink-light); border:2px solid var(--pink); flex-shrink:0; z-index:1; }
-  .s-dot.terminal { background:var(--pink); }
-  .s-name { font-size:13px; color:var(--text); }
-
-  /* FOOTER */
-  footer { background: var(--card); border-top: 1px solid var(--border); margin-top: 2rem; padding: 1.5rem 1rem; }
-  .footer-inner { max-width: 680px; margin: 0 auto; text-align: center; }
-  .footer-credit { font-size: 13px; color: var(--text); margin-bottom: 8px; }
-  .footer-credit a { color: var(--pink); text-decoration: none; font-weight: 600; }
-  .footer-credit a:hover { text-decoration: underline; }
-  .footer-source { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
-  .footer-disclaimer { font-size: 11px; color: var(--muted); line-height: 1.5; background: var(--bg); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border); }
-</style>
-</head>
-<body>
-
-<!-- STOPS MODAL -->
-<div class="modal-overlay" id="stopsModal">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title" id="modalTitle"></div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-meta" id="modalMeta"></div>
-    <div id="modalBody"></div>
-  </div>
-</div>
-
-<!-- HEADER -->
-<header>
-  <div class="header-inner">
-    <div class="logo-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-        <rect x="2" y="7" width="20" height="14" rx="3"/>
-        <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
-        <line x1="6" y1="13" x2="6" y2="13" stroke-width="3" stroke-linecap="round"/>
-        <line x1="18" y1="13" x2="18" y2="13" stroke-width="3" stroke-linecap="round"/>
-        <line x1="12" y1="13" x2="12" y2="13" stroke-width="3" stroke-linecap="round"/>
-        <path d="M6 21v1m12-1v1"/>
-      </svg>
-    </div>
-    <div class="header-text">
-      <div class="title">Naik Bas</div>
-      <div class="sub">Bas Pink Sabah — S01 &amp; S05</div>
-    </div>
-  </div>
-</header>
-
-<main>
-
-  <!-- ROUTE CARDS -->
-  <div class="card">
-    <div class="section-label">Available Routes — tap to see stops</div>
-    <div class="route-pills">
-      <div class="route-pill" onclick="showModal('S01')">
-        <div class="route-pill-num">S01</div>
-        <div>
-          <div class="route-pill-name">KK Sentral ↔ UMS</div>
-          <div class="route-pill-info">31.78 km · via Likas &amp; 1 Borneo</div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naik Bas — Bas Pink Sabah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <!-- STOPS MODAL -->
+    <div class="modal-overlay" id="stopsModal">
+      <div class="modal">
+        <div class="modal-head">
+          <div class="modal-title" id="modalTitle"></div>
+          <button class="modal-close" onclick="closeModal()">✕</button>
         </div>
-        <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-      </div>
-      <div class="route-pill" onclick="showModal('S05')">
-        <div class="route-pill-num">S05</div>
-        <div>
-          <div class="route-pill-name">KK Sentral City Loop</div>
-          <div class="route-pill-info">17.84 km · via City Centre &amp; KPJ</div>
-        </div>
-        <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        <div class="modal-meta" id="modalMeta"></div>
+        <div id="modalBody"></div>
       </div>
     </div>
-  </div>
 
-  <!-- SEARCH -->
-  <div class="card">
-    <div class="field-label">From</div>
-    <div class="input-wrap" style="margin-bottom:0">
-      <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2.2">
-        <circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/>
-      </svg>
-      <input class="route-input" id="originInput" type="text" placeholder="e.g. UMS, Centre Point, Likas…" autocomplete="off" />
-      <div class="autocomplete-list" id="originAC"></div>
-    </div>
-    <button class="location-btn" id="locationBtnOrigin" onclick="useMyLocation('origin')">
-      📍 Use My Location
-    </button>
-
-    <button class="swap-btn" onclick="swapLocations()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-        <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-        <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-      </svg>
-    </button>
-
-    <div class="field-label">To</div>
-    <div class="input-wrap" style="margin-bottom:12px">
-      <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2185b" stroke-width="2.2">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-      </svg>
-      <input class="route-input" id="destInput" type="text" placeholder="e.g. KK Sentral, 1 Borneo, KPJ…" autocomplete="off" />
-      <div class="autocomplete-list" id="destAC"></div>
-    </div>
-
-    <button class="search-btn" onclick="searchRoute()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      Find Route
-    </button>
-  </div>
-
-  <!-- QUICK PICKS -->
-  <p class="quick-label">Popular routes</p>
-  <div class="quick-chips">
-    <span class="chip" onclick="quickFill('KK Sentral','UMS')">KK Sentral → UMS</span>
-    <span class="chip" onclick="quickFill('KK Sentral','1 Borneo')">KK Sentral → 1 Borneo</span>
-    <span class="chip" onclick="quickFill('KK Sentral','Jesselton Point Ferry Terminal')">KK Sentral → Jesselton Point</span>
-    <span class="chip" onclick="quickFill('UMS','KK Sentral')">UMS → KK Sentral</span>
-    <span class="chip" onclick="quickFill('Likas Plaza','KK Sentral')">Likas Plaza → KK Sentral</span>
-    <span class="chip" onclick="quickFill('Centre Point','KPJ')">Centre Point → KPJ</span>
-    <span class="chip" onclick="quickFill('1 Borneo','Masjid Bandaraya')">1 Borneo → Masjid Bandaraya</span>
-    <span class="chip" onclick="quickFill('KPKPS','KK Sentral')">KPKPS → KK Sentral</span>
-  </div>
-
-  <!-- RESULT -->
-  <div id="result">
-    <div class="empty-state">
-      <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1">
-        <rect x="2" y="7" width="20" height="14" rx="3"/>
-        <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
-        <line x1="6" y1="13" x2="6" y2="13" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="18" y1="13" x2="18" y2="13" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="12" y1="13" x2="12" y2="13" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-      <p>Where are you going today?</p>
-    </div>
-  </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-credit">
-      Built by <a href="https://instagram.com/faezrahrz" target="_blank" rel="noopener noreferrer">@faezrahrz</a>
-    </div>
-    <div class="footer-source">
-      Bus route data retrieved manually from BAS.MY
-    </div>
-    <div class="footer-disclaimer">
-      <strong>Disclaimer:</strong> This is an unofficial route planner. Route information, schedules, and stop locations are provided for reference only and may not reflect real-time changes. Always verify with official BAS.MY sources or at bus stops. The developer is not responsible for any inaccuracies or travel disruptions.
-    </div>
-  </div>
-</footer>
-
-<script>
-// ─── ROUTE DATA ────────────────────────────────────────────────
-const ROUTES = {
-  S01: {
-    name: 'S01', label: 'KK Sentral ↔ UMS / Likas Loop', distance: '31.78 km',
-    outbound: [
-      'KK Sentral','Jabatan Audit','Monocolo Boutique Hotel','Sawit Kinabalu',
-      'Wisma Wanita','Taman Yakim Jaya','Basel Likas','SM Shan Tao',
-      'OPP SDA Likas','Wisma Kosan','Likas Plaza','OPP Pintu Masjid Bandaraya',
-      'Masjid Bandaraya','McD Anjung Selera','Anjung Selera','Menara Kinabalu',
-      'Innoprise','KPKPS','UMS'
-    ],
-    inbound: [
-      'UMS','1 Borneo','Kg. Delima','Alamesra I','OPP 1 Borneo','Alamesra II',
-      'OPP KPKPS','OPP Innoprise','Pintu Masjid Bandaraya','Shell Likas',
-      'Kg. Cendrakasih','Luyang Plaza','Foh Sang','Bornion',
-      'Taman Layang-Layang','Zirafah','OPP Mahkamah','OPP Jabatan Audit','KK Sentral'
-    ]
-  },
-  S05: {
-    name: 'S05', label: 'KK Sentral City Loop', distance: '17.84 km',
-    outbound: [
-      'KK Sentral','Centre Point','Segama','Jesselton Mall',
-      'Jesselton Point Ferry Terminal','Jesselton Quay','SICC',
-      'Sabah Energy','Sabah Trade Centre','Kompleks Sukan Likas',
-      'Stadium Hoki','KPJ'
-    ],
-    inbound: [
-      'KPJ','HQE 2','Damai Plaza','E-West','Taman Kinabalu','Lido',
-      'Taman Fortuna','Vetro 11','HQE 1','Masjid Negeri','UTC',
-      'Sacred Heart','Sadong Jaya','KK Sentral'
-    ]
-  }
-};
-
-// ─── STOP COORDINATES ──────────────────────────────────────────
-// TODO: Fill in actual GPS coordinates for each stop
-// Find coordinates: Right-click location in Google Maps → Copy coordinates
-const STOPS_COORDS = {
-  // S01 Stops - Add coordinates here
-  'KK Sentral': { lat: 5.9804, lng: 116.0735 }, // Example coordinate
-  'Jabatan Audit': { lat: null, lng: null },
-  'Monocolo Boutique Hotel': { lat: null, lng: null },
-  'Sawit Kinabalu': { lat: null, lng: null },
-  'Wisma Wanita': { lat: null, lng: null },
-  'Taman Yakim Jaya': { lat: null, lng: null },
-  'Basel Likas': { lat: null, lng: null },
-  'SM Shan Tao': { lat: null, lng: null },
-  'OPP SDA Likas': { lat: null, lng: null },
-  'Wisma Kosan': { lat: null, lng: null },
-  'Likas Plaza': { lat: null, lng: null },
-  'OPP Pintu Masjid Bandaraya': { lat: null, lng: null },
-  'Masjid Bandaraya': { lat: null, lng: null },
-  'McD Anjung Selera': { lat: null, lng: null },
-  'Anjung Selera': { lat: null, lng: null },
-  'Menara Kinabalu': { lat: null, lng: null },
-  'Innoprise': { lat: null, lng: null },
-  'KPKPS': { lat: null, lng: null },
-  'UMS': { lat: null, lng: null },
-  '1 Borneo': { lat: null, lng: null },
-  'Kg. Delima': { lat: null, lng: null },
-  'Alamesra I': { lat: null, lng: null },
-  'OPP 1 Borneo': { lat: null, lng: null },
-  'Alamesra II': { lat: null, lng: null },
-  'OPP KPKPS': { lat: null, lng: null },
-  'OPP Innoprise': { lat: null, lng: null },
-  'Pintu Masjid Bandaraya': { lat: null, lng: null },
-  'Shell Likas': { lat: null, lng: null },
-  'Kg. Cendrakasih': { lat: null, lng: null },
-  'Luyang Plaza': { lat: null, lng: null },
-  'Foh Sang': { lat: null, lng: null },
-  'Bornion': { lat: null, lng: null },
-  'Taman Layang-Layang': { lat: null, lng: null },
-  'Zirafah': { lat: null, lng: null },
-  'OPP Mahkamah': { lat: null, lng: null },
-  'OPP Jabatan Audit': { lat: null, lng: null },
-  
-  // S05 Stops - Add coordinates here
-  'Centre Point': { lat: null, lng: null },
-  'Segama': { lat: null, lng: null },
-  'Jesselton Mall': { lat: null, lng: null },
-  'Jesselton Point Ferry Terminal': { lat: null, lng: null },
-  'Jesselton Quay': { lat: null, lng: null },
-  'SICC': { lat: null, lng: null },
-  'Sabah Energy': { lat: null, lng: null },
-  'Sabah Trade Centre': { lat: null, lng: null },
-  'Kompleks Sukan Likas': { lat: null, lng: null },
-  'Stadium Hoki': { lat: null, lng: null },
-  'KPJ': { lat: null, lng: null },
-  'HQE 2': { lat: null, lng: null },
-  'Damai Plaza': { lat: null, lng: null },
-  'E-West': { lat: null, lng: null },
-  'Taman Kinabalu': { lat: null, lng: null },
-  'Lido': { lat: null, lng: null },
-  'Taman Fortuna': { lat: null, lng: null },
-  'Vetro 11': { lat: null, lng: null },
-  'HQE 1': { lat: null, lng: null },
-  'Masjid Negeri': { lat: null, lng: null },
-  'UTC': { lat: null, lng: null },
-  'Sacred Heart': { lat: null, lng: null },
-  'Sadong Jaya': { lat: null, lng: null }
-};
-
-// Build flat stop index with aliases for fuzzy matching
-const ALL_STOPS = [];
-const ALIASES = {
-  'kkia': 'KK Sentral', 'kk sentral': 'KK Sentral', 'sentral': 'KK Sentral',
-  'jesselton point': 'Jesselton Point Ferry Terminal',
-  'ferry terminal': 'Jesselton Point Ferry Terminal',
-  'jesselton ferry': 'Jesselton Point Ferry Terminal',
-  '1borneo': '1 Borneo', 'one borneo': '1 Borneo',
-  'likas': 'Likas Plaza', 'likas plaza': 'Likas Plaza',
-  'mcd': 'McD Anjung Selera', 'mcdonalds': 'McD Anjung Selera',
-  'masjid': 'Masjid Bandaraya', 'bandaraya': 'Masjid Bandaraya',
-  'ums': 'UMS', 'universiti malaysia sabah': 'UMS',
-  'kpj': 'KPJ', 'kpj hospital': 'KPJ',
-  'centre point': 'Centre Point', 'centerpoint': 'Centre Point',
-  'utc': 'UTC', 'urban transformation centre': 'UTC',
-  'sicc': 'SICC', 'kpkps': 'KPKPS', 'hqe 1': 'HQE 1', 'hqe 2': 'HQE 2',
-  'alamesra': 'Alamesra I', 'stadium': 'Stadium Hoki',
-  'kompleks sukan': 'Kompleks Sukan Likas', 'sports complex': 'Kompleks Sukan Likas',
-  'menara kinabalu': 'Menara Kinabalu', 'innoprise': 'Innoprise',
-  'segama': 'Segama', 'sadong jaya': 'Sadong Jaya',
-};
-
-Object.values(ROUTES).forEach(r => {
-  [...r.outbound, ...r.inbound].forEach(s => {
-    if (!ALL_STOPS.find(x => x.name === s)) ALL_STOPS.push({ name: s });
-  });
-});
-const UNIQUE_STOPS = [...new Set(ALL_STOPS.map(s => s.name))].sort();
-
-// ─── FUZZY MATCH ───────────────────────────────────────────────
-function normalise(s) { return s.toLowerCase().replace(/[.\-]/g,'').trim(); }
-
-function resolveStop(input) {
-  const n = normalise(input);
-  // exact alias
-  if (ALIASES[n]) return ALIASES[n];
-  // exact match
-  const exact = UNIQUE_STOPS.find(s => normalise(s) === n);
-  if (exact) return exact;
-  // starts-with
-  const starts = UNIQUE_STOPS.find(s => normalise(s).startsWith(n) || n.startsWith(normalise(s)));
-  if (starts) return starts;
-  // contains
-  const contains = UNIQUE_STOPS.filter(s => normalise(s).includes(n) || n.includes(normalise(s)));
-  if (contains.length === 1) return contains[0];
-  if (contains.length > 1) return contains[0]; // best guess
-  return null;
-}
-
-function fuzzySearch(input) {
-  if (!input || input.length < 1) return [];
-  const n = normalise(input);
-  return UNIQUE_STOPS.filter(s => normalise(s).includes(n) || n.includes(normalise(s).substring(0,3))).slice(0, 8);
-}
-
-function getStopMeta(stopName) {
-  const meta = [];
-  Object.entries(ROUTES).forEach(([code, r]) => {
-    if (r.outbound.includes(stopName)) meta.push({ route: code, dir: 'Outbound' });
-    if (r.inbound.includes(stopName)) meta.push({ route: code, dir: 'Inbound' });
-  });
-  return meta;
-}
-
-// ─── ROUTE FINDER ─────────────────────────────────────────────
-function findRoute(fromStop, toStop) {
-  if (fromStop === toStop) return { type: 'same' };
-
-  const results = [];
-
-  // Check each route, each direction for DIRECT routes
-  Object.entries(ROUTES).forEach(([code, r]) => {
-    ['outbound','inbound'].forEach(dir => {
-      const stops = r[dir];
-      const fi = stops.indexOf(fromStop);
-      const ti = stops.indexOf(toStop);
-      if (fi !== -1 && ti !== -1 && fi < ti) {
-        results.push({
-          type: 'direct',
-          route: code,
-          direction: dir,
-          stops: stops.slice(fi, ti + 1),
-          numStops: ti - fi,
-          boardAt: fromStop,
-          alightAt: toStop
-        });
-      }
-    });
-  });
-
-  if (results.length > 0) {
-    results.sort((a,b) => a.numStops - b.numStops);
-    return { type: 'found', options: results };
-  }
-
-  // Try SAME-ROUTE TRANSFERS (e.g., SICC to Damai Plaza via KPJ on S05)
-  const sameRouteTransfers = [];
-  Object.entries(ROUTES).forEach(([code, r]) => {
-    ['outbound','inbound'].forEach(dirA => {
-      ['outbound','inbound'].forEach(dirB => {
-        if (dirA === dirB) return; // Skip same direction (already checked above)
-        
-        const stopsA = r[dirA];
-        const stopsB = r[dirB];
-        const fi = stopsA.indexOf(fromStop);
-        const ti = stopsB.indexOf(toStop);
-        
-        if (fi !== -1 && ti !== -1) {
-          // Find common stops between the two directions (potential transfer points)
-          const commonStops = stopsA.filter(s => stopsB.includes(s));
-          
-          commonStops.forEach(transferStop => {
-            const transferIdxA = stopsA.indexOf(transferStop);
-            const transferIdxB = stopsB.indexOf(transferStop);
-            
-            // Check if we can reach transfer point from origin and destination from transfer point
-            if (fi < transferIdxA && transferIdxB < ti) {
-              sameRouteTransfers.push({
-                type: 'transfer',
-                sameRoute: true,
-                leg1: { 
-                  route: code, 
-                  direction: dirA, 
-                  stops: stopsA.slice(fi, transferIdxA + 1), 
-                  boardAt: fromStop, 
-                  alightAt: transferStop 
-                },
-                leg2: { 
-                  route: code, 
-                  direction: dirB, 
-                  stops: stopsB.slice(transferIdxB, ti + 1), 
-                  boardAt: transferStop, 
-                  alightAt: toStop 
-                },
-                transferPoint: transferStop,
-                totalStops: (transferIdxA - fi) + (ti - transferIdxB)
-              });
-            }
-          });
-        }
-      });
-    });
-  });
-
-  // Try MULTI-ROUTE TRANSFERS via any common stop
-  const multiRouteTransfers = [];
-  Object.entries(ROUTES).forEach(([codeA, rA]) => {
-    ['outbound','inbound'].forEach(dirA => {
-      const stopsA = rA[dirA];
-      const fi = stopsA.indexOf(fromStop);
-      if (fi === -1) return;
-      
-      Object.entries(ROUTES).forEach(([codeB, rB]) => {
-        if (codeA === codeB) return; // Skip same route (handled above)
-        
-        ['outbound','inbound'].forEach(dirB => {
-          const stopsB = rB[dirB];
-          const ti = stopsB.indexOf(toStop);
-          if (ti === -1) return;
-          
-          // Find all common stops between these two route segments
-          const commonStops = stopsA.filter(s => stopsB.includes(s));
-          
-          commonStops.forEach(transferStop => {
-            const transferIdxA = stopsA.indexOf(transferStop);
-            const transferIdxB = stopsB.indexOf(transferStop);
-            
-            // Check if we can reach transfer point from origin and destination from transfer point
-            if (fi < transferIdxA && transferIdxB < ti) {
-              multiRouteTransfers.push({
-                type: 'transfer',
-                sameRoute: false,
-                leg1: { 
-                  route: codeA, 
-                  direction: dirA, 
-                  stops: stopsA.slice(fi, transferIdxA + 1), 
-                  boardAt: fromStop, 
-                  alightAt: transferStop 
-                },
-                leg2: { 
-                  route: codeB, 
-                  direction: dirB, 
-                  stops: stopsB.slice(transferIdxB, ti + 1), 
-                  boardAt: transferStop, 
-                  alightAt: toStop 
-                },
-                transferPoint: transferStop,
-                totalStops: (transferIdxA - fi) + (ti - transferIdxB)
-              });
-            }
-          });
-        });
-      });
-    });
-  });
-
-  // Combine all transfer options
-  const allTransfers = [...sameRouteTransfers, ...multiRouteTransfers];
-  
-  if (allTransfers.length > 0) {
-    // Sort by total stops (shortest journey first)
-    allTransfers.sort((a,b) => a.totalStops - b.totalStops);
-    return { type: 'found', options: allTransfers };
-  }
-
-  // Try 2-TRANSFER (3-leg) journeys for complex routes
-  const twoTransferJourneys = [];
-  Object.entries(ROUTES).forEach(([codeA, rA]) => {
-    ['outbound','inbound'].forEach(dirA => {
-      const stopsA = rA[dirA];
-      const fi = stopsA.indexOf(fromStop);
-      if (fi === -1) return;
-      
-      // Find all possible first transfer points
-      Object.entries(ROUTES).forEach(([codeB, rB]) => {
-        ['outbound','inbound'].forEach(dirB => {
-          const stopsB = rB[dirB];
-          const commonAB = stopsA.filter(s => stopsB.includes(s));
-          
-          commonAB.forEach(transfer1 => {
-            const t1IdxA = stopsA.indexOf(transfer1);
-            const t1IdxB = stopsB.indexOf(transfer1);
-            if (fi >= t1IdxA) return; // Can't reach transfer1 from origin
-            
-            // Find second leg to final transfer point
-            Object.entries(ROUTES).forEach(([codeC, rC]) => {
-              ['outbound','inbound'].forEach(dirC => {
-                const stopsC = rC[dirC];
-                const ti = stopsC.indexOf(toStop);
-                if (ti === -1) return;
-                
-                const commonBC = stopsB.filter(s => stopsC.includes(s));
-                
-                commonBC.forEach(transfer2 => {
-                  const t2IdxB = stopsB.indexOf(transfer2);
-                  const t2IdxC = stopsC.indexOf(transfer2);
-                  if (t1IdxB >= t2IdxB || t2IdxC >= ti) return; // Invalid path
-                  
-                  twoTransferJourneys.push({
-                    type: 'two_transfer',
-                    leg1: {
-                      route: codeA,
-                      direction: dirA,
-                      stops: stopsA.slice(fi, t1IdxA + 1),
-                      boardAt: fromStop,
-                      alightAt: transfer1
-                    },
-                    leg2: {
-                      route: codeB,
-                      direction: dirB,
-                      stops: stopsB.slice(t1IdxB, t2IdxB + 1),
-                      boardAt: transfer1,
-                      alightAt: transfer2
-                    },
-                    leg3: {
-                      route: codeC,
-                      direction: dirC,
-                      stops: stopsC.slice(t2IdxC, ti + 1),
-                      boardAt: transfer2,
-                      alightAt: toStop
-                    },
-                    transfer1: transfer1,
-                    transfer2: transfer2,
-                    totalStops: (t1IdxA - fi) + (t2IdxB - t1IdxB) + (ti - t2IdxC)
-                  });
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-
-  if (twoTransferJourneys.length > 0) {
-    twoTransferJourneys.sort((a,b) => a.totalStops - b.totalStops);
-    return { type: 'found', options: twoTransferJourneys };
-  }
-
-  return { type: 'notfound' };
-}
-
-function estimateDuration(numStops) {
-  const mins = numStops * 3 + 5;
-  const lo = Math.max(5, mins - 5), hi = mins + 5;
-  return `${lo}–${hi} min`;
-}
-
-// ─── RENDER RESULT ─────────────────────────────────────────────
-function renderResult(fromStop, toStop) {
-  const result = findRoute(fromStop, toStop);
-  const el = document.getElementById('result');
-
-  if (result.type === 'same') {
-    el.innerHTML = `<div class="not-found"><h3>Same stop!</h3><p>Your origin and destination are the same stop.</p></div>`;
-    return;
-  }
-
-  if (result.type === 'notfound') {
-    el.innerHTML = `
-      <div class="not-found">
-        <h3>⚠️ No direct Bas Pink route found</h3>
-        <p>There is no Bas Pink (S01/S05) connection between <strong>${fromStop}</strong> and <strong>${toStop}</strong> at this time.</p>
-        <p style="margin-top:6px">Both stops may be on the same route but require travelling in the wrong direction. Try swapping origin and destination, or transfer via KK Sentral.</p>
-      </div>`;
-    return;
-  }
-
-  const best = result.options[0];
-  const isTransfer = best.type === 'transfer';
-  const isTwoTransfer = best.type === 'two_transfer';
-  const totalStops = (isTransfer || isTwoTransfer) ? best.totalStops : best.numStops;
-  const duration = estimateDuration(totalStops);
-
-  let stepsHTML = '';
-
-  if (!isTransfer && !isTwoTransfer) {
-    const dirLabel = best.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const intermediate = best.stops.slice(1, -1);
-    stepsHTML = `
-      <div class="step">
-        <div class="step-dot dot-start">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
+    <!-- HEADER -->
+    <header>
+      <div class="header-inner">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="3"/>
+            <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
+            <line x1="6" y1="13" x2="6" y2="13" stroke-width="3" stroke-linecap="round"/>
+            <line x1="18" y1="13" x2="18" y2="13" stroke-width="3" stroke-linecap="round"/>
+            <line x1="12" y1="13" x2="12" y2="13" stroke-width="3" stroke-linecap="round"/>
+            <path d="M6 21v1m12-1v1"/>
+          </svg>
         </div>
-        <div class="step-content">
-          <div class="step-title">Board at ${best.boardAt}</div>
-          <div class="step-desc">Wait for Bas Pink <strong>${best.route}</strong> heading ${dirLabel}</div>
-          <span class="step-tag tag-pink">${best.route}</span>
-          <span class="step-tag tag-blue">${dirLabel}</span>
+        <div class="header-text">
+          <div class="title">Naik Bas</div>
+          <div class="sub">Bas Pink Sabah — S01 &amp; S05</div>
         </div>
       </div>
-      ${intermediate.length > 0 ? `
-      <div class="step">
-        <div class="step-dot dot-bus">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="13" x2="6" y2="13" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="13" x2="18" y2="13" stroke-width="3" stroke-linecap="round"/><path d="M6 19v1m12-1v1"/></svg>
-        </div>
-        <div class="step-content">
-          <div class="step-title">Ride ${best.numStops} stop${best.numStops>1?'s':''}</div>
-          <div class="step-desc">Stay on the bus through ${intermediate.length} stop${intermediate.length>1?'s':''} until <strong>${best.alightAt}</strong></div>
-          <div class="stops-strip">
-            <div class="stops-strip-label">Stop sequence</div>
-            <div class="stops-flow">
-              ${best.stops.map((s,i) => `
-                <span class="s-stop ${i===0?'s-board':i===best.stops.length-1?'s-alight':''}">${s}</span>
-                ${i < best.stops.length-1 ? '<span class="s-arrow">›</span>' : ''}
-              `).join('')}
+    </header>
+
+    <main>
+      <!-- ROUTE CARDS -->
+      <div class="card">
+        <div class="section-label">Available Routes — tap to see stops</div>
+        <div class="route-pills">
+          <div class="route-pill" onclick="showModal('S01')">
+            <div class="route-pill-num">S01</div>
+            <div>
+              <div class="route-pill-name">KK Sentral ↔ UMS</div>
+              <div class="route-pill-info">31.78 km · via Likas &amp; 1 Borneo</div>
             </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
-        </div>
-      </div>` : ''}
-      <div class="step">
-        <div class="step-dot dot-arrive">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div class="step-content" style="padding-bottom:0">
-          <div class="step-title">Alight at ${best.alightAt}</div>
-          <div class="step-desc">You have arrived at your destination.</div>
-          <span class="step-tag tag-green">✓ Arrived</span>
-        </div>
-      </div>`;
-  } else if (isTwoTransfer) {
-    const dir1 = best.leg1.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const dir2 = best.leg2.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const dir3 = best.leg3.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    
-    stepsHTML = `
-      <div class="step">
-        <div class="step-dot dot-start">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
-        </div>
-        <div class="step-content">
-          <div class="step-title">Board at ${best.leg1.boardAt}</div>
-          <div class="step-desc">Take Bas Pink <strong>${best.leg1.route}</strong> ${dir1} towards ${best.transfer1}</div>
-          <span class="step-tag tag-pink">${best.leg1.route}</span>
-          <span class="step-tag tag-blue">${dir1}</span>
-          <div class="stops-strip">
-            <div class="stops-strip-label">Leg 1 stops (${best.leg1.stops.length - 1} stop${best.leg1.stops.length > 2 ? 's' : ''})</div>
-            <div class="stops-flow">
-              ${best.leg1.stops.map((s,i) => `
-                <span class="s-stop ${i===0?'s-board':i===best.leg1.stops.length-1?'s-alight':''}">${s}</span>
-                ${i < best.leg1.stops.length-1 ? '<span class="s-arrow">›</span>' : ''}
-              `).join('')}
+          <div class="route-pill" onclick="showModal('S05')">
+            <div class="route-pill-num">S05</div>
+            <div>
+              <div class="route-pill-name">KK Sentral City Loop</div>
+              <div class="route-pill-info">17.84 km · via City Centre &amp; KPJ</div>
             </div>
+            <svg style="margin-left:auto;color:var(--pink);opacity:.4;flex-shrink:0" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
         </div>
       </div>
-      <div class="step">
-        <div class="step-dot dot-transfer">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+
+      <!-- SEARCH -->
+      <div class="card">
+        <div class="field-label">From</div>
+        <div class="input-wrap" style="margin-bottom:0">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--pink)" stroke-width="2.2">
+            <circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="3 3"/>
+          </svg>
+          <input class="route-input" id="originInput" type="text" placeholder="e.g. UMS, Centre Point, Likas…" autocomplete="off" />
+          <div class="autocomplete-list" id="originAC"></div>
         </div>
-        <div class="step-content">
-          <div class="step-title">Transfer #1 at ${best.transfer1}</div>
-          <div class="step-desc">Alight and wait for Bas Pink <strong>${best.leg2.route}</strong> ${dir2}</div>
-          <span class="step-tag tag-orange">Transfer 1 of 2</span>
+        <button class="location-btn" id="locationBtnOrigin" onclick="useMyLocation('origin')">
+          📍 Use My Location
+        </button>
+
+        <button class="swap-btn" onclick="swapLocations()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+            <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+          </svg>
+        </button>
+
+        <div class="field-label">To</div>
+        <div class="input-wrap" style="margin-bottom:12px">
+          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2185b" stroke-width="2.2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <input class="route-input" id="destInput" type="text" placeholder="e.g. KK Sentral, 1 Borneo, KPJ…" autocomplete="off" />
+          <div class="autocomplete-list" id="destAC"></div>
+        </div>
+
+        <button class="search-btn" onclick="searchRoute()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Find Route
+        </button>
+      </div>
+
+      <!-- QUICK PICKS -->
+      <p class="quick-label">Popular routes</p>
+      <div class="quick-chips">
+        <span class="chip" onclick="quickFill('KK Sentral','UMS')">KK Sentral → UMS</span>
+        <span class="chip" onclick="quickFill('KK Sentral','1 Borneo')">KK Sentral → 1 Borneo</span>
+        <span class="chip" onclick="quickFill('KK Sentral','Jesselton Point Ferry Terminal')">KK Sentral → Jesselton Point</span>
+        <span class="chip" onclick="quickFill('UMS','KK Sentral')">UMS → KK Sentral</span>
+        <span class="chip" onclick="quickFill('Likas Plaza','KK Sentral')">Likas Plaza → KK Sentral</span>
+        <span class="chip" onclick="quickFill('Centre Point','KPJ')">Centre Point → KPJ</span>
+        <span class="chip" onclick="quickFill('1 Borneo','Masjid Bandaraya')">1 Borneo → Masjid Bandaraya</span>
+        <span class="chip" onclick="quickFill('KPKPS','KK Sentral')">KPKPS → KK Sentral</span>
+      </div>
+
+      <!-- RESULT -->
+      <div id="result">
+        <div class="empty-state">
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1">
+            <rect x="2" y="7" width="20" height="14" rx="3"/>
+            <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
+            <line x1="6" y1="13" x2="6" y2="13" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="18" y1="13" x2="18" y2="13" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="12" y1="13" x2="12" y2="13" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <p>Where are you going today?</p>
         </div>
       </div>
-      <div class="step">
-        <div class="step-dot dot-bus">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="13" x2="6" y2="13" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="13" x2="18" y2="13" stroke-width="3" stroke-linecap="round"/><path d="M6 19v1m12-1v1"/></svg>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-credit">
+          Built by <a href="https://instagram.com/faezrahrz" target="_blank" rel="noopener noreferrer">@faezrahrz</a>
         </div>
-        <div class="step-content">
-          <div class="step-title">Board ${best.leg2.route} at ${best.transfer1}</div>
-          <div class="step-desc">Ride towards ${best.transfer2}</div>
-          <span class="step-tag tag-pink">${best.leg2.route}</span>
-          <span class="step-tag tag-blue">${dir2}</span>
-          <div class="stops-strip">
-            <div class="stops-strip-label">Leg 2 stops (${best.leg2.stops.length - 1} stop${best.leg2.stops.length > 2 ? 's' : ''})</div>
-            <div class="stops-flow">
-              ${best.leg2.stops.map((s,i) => `
-                <span class="s-stop ${i===0?'s-board':i===best.leg2.stops.length-1?'s-alight':''}">${s}</span>
-                ${i < best.leg2.stops.length-1 ? '<span class="s-arrow">›</span>' : ''}
-              `).join('')}
-            </div>
-          </div>
+        <div class="footer-source">
+          Bus route data retrieved manually from BAS.MY
+        </div>
+        <div class="footer-disclaimer">
+          <strong>Disclaimer:</strong> This is an unofficial route planner. Route information, schedules, and stop locations are provided for reference only and may not reflect real-time changes. Always verify with official BAS.MY sources or at bus stops. The developer is not responsible for any inaccuracies or travel disruptions.
         </div>
       </div>
-      <div class="step">
-        <div class="step-dot dot-transfer">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        </div>
-        <div class="step-content">
-          <div class="step-title">Transfer #2 at ${best.transfer2}</div>
-          <div class="step-desc">Alight and wait for Bas Pink <strong>${best.leg3.route}</strong> ${dir3}</div>
-          <span class="step-tag tag-orange">Transfer 2 of 2</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-dot dot-bus">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="13" x2="6" y2="13" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="13" x2="18" y2="13" stroke-width="3" stroke-linecap="round"/><path d="M6 19v1m12-1v1"/></svg>
-        </div>
-        <div class="step-content">
-          <div class="step-title">Board ${best.leg3.route} at ${best.transfer2}</div>
-          <div class="step-desc">Final leg towards <strong>${best.leg3.alightAt}</strong></div>
-          <span class="step-tag tag-pink">${best.leg3.route}</span>
-          <span class="step-tag tag-blue">${dir3}</span>
-          <div class="stops-strip">
-            <div class="stops-strip-label">Leg 3 stops (${best.leg3.stops.length - 1} stop${best.leg3.stops.length > 2 ? 's' : ''})</div>
-            <div class="stops-flow">
-              ${best.leg3.stops.map((s,i) => `
-                <span class="s-stop ${i===0?'s-board':i===best.leg3.stops.length-1?'s-alight':''}">${s}</span>
-                ${i < best.leg3.stops.length-1 ? '<span class="s-arrow">›</span>' : ''}
-              `).join('')}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-dot dot-arrive">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div class="step-content" style="padding-bottom:0">
-          <div class="step-title">Alight at ${best.leg3.alightAt}</div>
-          <div class="step-desc">You have arrived at your destination.</div>
-          <span class="step-tag tag-green">✓ Arrived</span>
-        </div>
-      </div>`;
-  } else {
-    const dir1 = best.leg1.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const dir2 = best.leg2.direction === 'outbound' ? 'Outbound →' : 'Inbound ←';
-    const transferPoint = best.transferPoint || best.leg1.alightAt;
-    const isSameRoute = best.sameRoute || best.leg1.route === best.leg2.route;
-    const transferDesc = isSameRoute 
-      ? `Stay at ${transferPoint} and wait for the same bus (${best.leg2.route}) going ${dir2}`
-      : `Alight at ${transferPoint} and wait for Bas Pink <strong>${best.leg2.route}</strong> ${dir2}`;
-    
-    stepsHTML = `
-      <div class="step">
-        <div class="step-dot dot-start">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
-        </div>
-        <div class="step-content">
-          <div class="step-title">Board at ${best.leg1.boardAt}</div>
-          <div class="step-desc">Take Bas Pink <strong>${best.leg1.route}</strong> ${dir1} towards ${transferPoint}</div>
-          <span class="step-tag tag-pink">${best.leg1.route}</span>
-          <span class="step-tag tag-blue">${dir1}</span>
-          <div class="stops-strip">
-            <div class="stops-strip-label">Leg 1 stops</div>
-            <div class="stops-flow">
-              ${best.leg1.stops.map((s,i) => `
-                <span class="s-stop ${i===0?'s-board':i===best.leg1.stops.length-1?'s-alight':''}">${s}</span>
-                ${i < best.leg1.stops.length-1 ? '<span class="s-arrow">›</span>' : ''}
-              `).join('')}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-dot dot-transfer">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-        </div>
-        <div class="step-content">
-          <div class="step-title">Transfer at ${transferPoint}</div>
-          <div class="step-desc">${transferDesc}</div>
-          <span class="step-tag tag-orange">${isSameRoute ? 'Same route transfer' : 'Transfer here'}</span>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-dot dot-bus">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="20" height="12" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="13" x2="6" y2="13" stroke-width="3" stroke-linecap="round"/><line x1="18" y1="13" x2="18" y2="13" stroke-width="3" stroke-linecap="round"/><path d="M6 19v1m12-1v1"/></svg>
-        </div>
-        <div class="step-content">
-          <div class="step-title">Board ${best.leg2.route} at ${transferPoint}</div>
-          <div class="step-desc">Ride towards <strong>${best.leg2.alightAt}</strong></div>
-          <span class="step-tag tag-pink">${best.leg2.route}</span>
-          <span class="step-tag tag-blue">${dir2}</span>
-          <div class="stops-strip">
-            <div class="stops-strip-label">Leg 2 stops</div>
-            <div class="stops-flow">
-              ${best.leg2.stops.map((s,i) => `
-                <span class="s-stop ${i===0?'s-board':i===best.leg2.stops.length-1?'s-alight':''}">${s}</span>
-                ${i < best.leg2.stops.length-1 ? '<span class="s-arrow">›</span>' : ''}
-              `).join('')}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-dot dot-arrive">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div class="step-content" style="padding-bottom:0">
-          <div class="step-title">Alight at ${best.leg2.alightAt}</div>
-          <div class="step-desc">You have arrived at your destination.</div>
-          <span class="step-tag tag-green">✓ Arrived</span>
-        </div>
-      </div>`;
-  }
-
-  const routeTag = isTwoTransfer ? `${best.leg1.route} + ${best.leg2.route} + ${best.leg3.route}` : isTransfer ? `${best.leg1.route} + ${best.leg2.route}` : best.route;
-  const transferPoint = isTwoTransfer ? `${best.transfer1} & ${best.transfer2}` : isTransfer ? (best.transferPoint || best.leg1.alightAt) : null;
-  const isSameRoute = isTransfer && (best.sameRoute || best.leg1.route === best.leg2.route);
-
-  el.innerHTML = `
-    <div class="result-card">
-      <div class="result-header">
-        <div>
-          <div class="result-route-label">Bas Pink · ${routeTag}</div>
-          <div class="result-route-text">${fromStop} → ${toStop}</div>
-          <div class="result-summary">${isTwoTransfer ? `2 transfers at ${transferPoint} · ${totalStops} stops total` : isTransfer ? `Transfer at ${transferPoint} · ${totalStops} stops total` : `Direct · ${totalStops} stop${totalStops>1?'s':''}`}</div>
-        </div>
-        <div class="result-badges">
-          <span class="rbadge rbadge-white">⏱ ${duration}</span>
-          <span class="rbadge rbadge-green">FREE RM 0</span>
-        </div>
-      </div>
-      <div class="result-body">
-        <div class="steps">${stepsHTML}</div>
-        <div class="fare-box">
-          <div>
-            <div class="fare-label">Bas Pink</div>
-            <div class="fare-sub">Free for all</div>
-          </div>
-          <div style="text-align:right">
-            <div class="fare-amount">RM 0</div>
-            <div class="fare-sub">FREE</div>
-          </div>
-        </div>
-        <div class="tips-box">
-          <div class="tips-title">💡 Tips</div>
-          <div class="tip-item">Buses run approximately every 20–30 minutes, 6AM to 10PM daily.</div>
-          <div class="tip-item">Bas Pink is free — just board and show your MyKad or IC if asked.</div>
-          ${isTwoTransfer ? `<div class="tip-item">This journey requires 2 transfers. Allow extra time for waiting between buses at ${best.transfer1} and ${best.transfer2}.</div>` : isTransfer ? `<div class="tip-item">${isSameRoute ? `When transferring at ${transferPoint}, stay at the same stop and wait for the bus going the opposite direction.` : `When transferring at ${transferPoint}, wait on the correct side for your next route.`}</div>` : ''}
-          <div class="tip-item">Both S01 and S05 start and terminate at KK Sentral.</div>
-        </div>
-        <div class="disclaimer">Route data sourced from official Bas Pink Sabah route maps. Schedule and frequency may vary — always check at the bus stop for latest information.</div>
-      </div>
-    </div>`;
-}
-
-// ─── SEARCH HANDLER ───────────────────────────────────────────
-function searchRoute() {
-  const originVal = document.getElementById('originInput').value.trim();
-  const destVal = document.getElementById('destInput').value.trim();
-  if (!originVal || !destVal) { alert('Please enter both origin and destination.'); return; }
-
-  const fromStop = resolveStop(originVal);
-  const toStop = resolveStop(destVal);
-
-  if (!fromStop) {
-    showNotFound(originVal, 'origin');
-    return;
-  }
-  if (!toStop) {
-    showNotFound(destVal, 'destination');
-    return;
-  }
-
-  renderResult(fromStop, toStop);
-}
-
-function showNotFound(query, role) {
-  const suggestions = fuzzySearch(query).slice(0, 5);
-  document.getElementById('result').innerHTML = `
-    <div class="not-found">
-      <h3>Stop not found</h3>
-      <p>"${query}" is not a Bas Pink stop. Did you mean one of these?</p>
-      ${suggestions.length > 0 ? `
-        <div class="suggestions">
-          ${suggestions.map(s => `<span class="sug-chip" onclick="fillFrom('${s}','${role}')">${s}</span>`).join('')}
-        </div>` : '<p style="margin-top:8px;font-size:12px">Tap a route card above to browse all stops.</p>'}
-    </div>`;
-}
-
-function fillFrom(stop, role) {
-  if (role === 'origin') document.getElementById('originInput').value = stop;
-  else document.getElementById('destInput').value = stop;
-  searchRoute();
-}
-
-// ─── AUTOCOMPLETE ─────────────────────────────────────────────
-function setupAC(inputId, acId) {
-  const input = document.getElementById(inputId);
-  const ac = document.getElementById(acId);
-  let activeIdx = -1;
-
-  input.addEventListener('input', () => {
-    const matches = fuzzySearch(input.value);
-    activeIdx = -1;
-    if (matches.length === 0 || input.value.length < 2) { ac.classList.remove('open'); return; }
-    ac.innerHTML = matches.map((s,i) => {
-      const meta = getStopMeta(s);
-      const tags = [...new Set(meta.map(m => m.route))].map(r => `<span class="autocomplete-route-tag">${r}</span>`).join('');
-      return `<div class="autocomplete-item" data-val="${s}" onclick="selectAC('${s}','${inputId}','${acId}')">${tags} ${s}</div>`;
-    }).join('');
-    ac.classList.add('open');
-  });
-
-  input.addEventListener('keydown', e => {
-    const items = ac.querySelectorAll('.autocomplete-item');
-    if (e.key === 'ArrowDown') { activeIdx = Math.min(activeIdx+1, items.length-1); highlight(items, activeIdx); e.preventDefault(); }
-    else if (e.key === 'ArrowUp') { activeIdx = Math.max(activeIdx-1, 0); highlight(items, activeIdx); e.preventDefault(); }
-    else if (e.key === 'Enter') {
-      if (activeIdx >= 0 && items[activeIdx]) { selectAC(items[activeIdx].dataset.val, inputId, acId); }
-      else { ac.classList.remove('open'); if (inputId === 'destInput') searchRoute(); else document.getElementById('destInput').focus(); }
-    }
-    else if (e.key === 'Escape') { ac.classList.remove('open'); }
-  });
-
-  document.addEventListener('click', e => { if (!input.contains(e.target) && !ac.contains(e.target)) ac.classList.remove('open'); });
-}
-
-function highlight(items, idx) { items.forEach((el,i) => el.classList.toggle('active', i===idx)); }
-
-function selectAC(val, inputId, acId) {
-  document.getElementById(inputId).value = val;
-  document.getElementById(acId).classList.remove('open');
-  if (inputId === 'destInput') searchRoute();
-  else document.getElementById('destInput').focus();
-}
-
-setupAC('originInput', 'originAC');
-setupAC('destInput', 'destAC');
-
-// ─── HELPERS ──────────────────────────────────────────────────
-function swapLocations() {
-  const o = document.getElementById('originInput'), d = document.getElementById('destInput');
-  [o.value, d.value] = [d.value, o.value];
-}
-
-function quickFill(from, to) {
-  document.getElementById('originInput').value = from;
-  document.getElementById('destInput').value = to;
-  searchRoute();
-}
-
-// ─── MODAL ─────────────────────────────────────────────────────
-function showModal(code) {
-  const r = ROUTES[code];
-  document.getElementById('modalTitle').textContent = `${code} — ${r.label}`;
-  document.getElementById('modalMeta').textContent = `${r.distance} · Free · ~6AM–10PM · Every 20–30 min`;
-  document.getElementById('modalBody').innerHTML = `
-    <div class="modal-dir-label">→ Outbound stops (${r.outbound.length} stops)</div>
-    <div class="stops-list">${r.outbound.map((s,i) =>
-      `<div class="s-row"><div class="s-dot ${i===0||i===r.outbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
-    ).join('')}</div>
-    <div class="modal-dir-label">← Inbound stops (${r.inbound.length} stops)</div>
-    <div class="stops-list">${r.inbound.map((s,i) =>
-      `<div class="s-row"><div class="s-dot ${i===0||i===r.inbound.length-1?'terminal':''}"></div><div class="s-name">${s}</div></div>`
-    ).join('')}</div>`;
-  document.getElementById('stopsModal').classList.add('open');
-}
-
-function closeModal() { document.getElementById('stopsModal').classList.remove('open'); }
-document.getElementById('stopsModal').addEventListener('click', e => { if (e.target === document.getElementById('stopsModal')) closeModal(); });
-
-document.getElementById('originInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !document.getElementById('originAC').classList.contains('open')) document.getElementById('destInput').focus(); });
-
-// ─── GEOLOCATION ───────────────────────────────────────────────
-// Calculate distance between two GPS coordinates using Haversine formula
-function getDistance(lat1, lng1, lat2, lng2) {
-  const R = 6371; // Earth's radius in kilometers
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLng = (lng2 - lng1) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-            Math.sin(dLng/2) * Math.sin(dLng/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c; // Distance in km
-}
-
-// Find nearest stops to user's location
-function findNearestStops(userLat, userLng, limit = 5) {
-  const distances = [];
-  
-  for (const [stopName, coords] of Object.entries(STOPS_COORDS)) {
-    // Skip stops without coordinates
-    if (!coords.lat || !coords.lng) continue;
-    
-    const distance = getDistance(userLat, userLng, coords.lat, coords.lng);
-    distances.push({ stopName, distance, coords });
-  }
-  
-  // Sort by distance and return top N
-  distances.sort((a, b) => a.distance - b.distance);
-  return distances.slice(0, limit);
-}
-
-// Get user's location and show nearest stops
-function useMyLocation(targetField) {
-  if (!navigator.geolocation) {
-    alert('Geolocation is not supported by your browser');
-    return;
-  }
-  
-  // Show loading state
-  const button = document.getElementById(targetField === 'origin' ? 'locationBtnOrigin' : 'locationBtnDest');
-  const originalText = button.innerHTML;
-  button.innerHTML = '📍 Getting location...';
-  button.disabled = true;
-  
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const { latitude, longitude } = position.coords;
-      const nearest = findNearestStops(latitude, longitude, 5);
-      
-      // Reset button
-      button.innerHTML = originalText;
-      button.disabled = false;
-      
-      if (nearest.length === 0) {
-        alert('No stops with coordinates found. Please add stop coordinates first.');
-        return;
-      }
-      
-      // Show nearest stops in a simple list
-      const stopsList = nearest.map((s, i) => 
-        `${i + 1}. ${s.stopName} (${s.distance.toFixed(2)} km away)`
-      ).join('\n');
-      
-      const selected = prompt(
-        `Nearest stops to your location:\n\n${stopsList}\n\nEnter the number of the stop you want to select (1-${nearest.length}):`,
-        '1'
-      );
-      
-      if (selected) {
-        const index = parseInt(selected) - 1;
-        if (index >= 0 && index < nearest.length) {
-          const stopName = nearest[index].stopName;
-          const inputField = document.getElementById(targetField === 'origin' ? 'originInput' : 'destInput');
-          inputField.value = stopName;
-          
-          // Trigger search if both fields are filled
-          const originVal = document.getElementById('originInput').value;
-          const destVal = document.getElementById('destInput').value;
-          if (originVal && destVal) {
-            searchRoute();
-          }
-        }
-      }
-    },
-    (error) => {
-      button.innerHTML = originalText;
-      button.disabled = false;
-      
-      let message = 'Unable to get your location. ';
-      if (error.code === error.PERMISSION_DENIED) {
-        message += 'Please allow location access in your browser settings.';
-      } else if (error.code === error.POSITION_UNAVAILABLE) {
-        message += 'Location information is unavailable.';
-      } else if (error.code === error.TIMEOUT) {
-        message += 'Location request timed out.';
-      }
-      alert(message);
-    },
-    {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0
-    }
-  );
-}
-</script>
-</body>
+    </footer>
+    <script src="script.js"></script>
+  </body>
 </html>
