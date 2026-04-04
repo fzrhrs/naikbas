@@ -23,7 +23,7 @@ const ROUTES = {
   },
   S02: {
     name: 'S02', label: 'KK Sentral Loop', distance: '32.88 km',
-    available: true,
+    available: false,
     availableFrom: 'July 2026',
     stops: [
       'KK Sentral','Jabatan Audit','Mahkamah Kota Kinabalu','Grace Chapel',
@@ -38,7 +38,7 @@ const ROUTES = {
   },
   S03: {
     name: 'S03', label: 'Terminal Menggatal Loop', distance: '38.34 km',
-    available: true,
+    available: false,
     availableFrom: 'July 2026',
     stops: [
       'Terminal Menggatal','SK Darau','Menggatal Plaza','Bigwheel-Sg. Darau',
@@ -57,7 +57,7 @@ const ROUTES = {
   },
   S04: {
     name: 'S04', label: 'Terminal Menggatal Loop', distance: '38.66 km',
-    available: true,
+    available: false,
     availableFrom: 'July 2026',
     stops: [
       'Terminal Menggatal','Wisma Chan Furniture','Pekan Menggatal',
@@ -87,7 +87,7 @@ const ROUTES = {
   },
   S06: {
     name: 'S06', label: 'KK Sentral Loop', distance: '20.40 km',
-    available: true,
+    available: false,
     availableFrom: 'July 2026',
     stops: [
       'KK Sentral','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
@@ -99,7 +99,7 @@ const ROUTES = {
   },
   S07: {
     name: 'S07', label: 'KK Sentral Loop', distance: '20.00 km',
-    available: true,
+    available: false,
     availableFrom: 'July 2026',
     stops: [
       'KK Sentral','Sutera Avenue','Taman Sempelang','Aeropod','Taman Winly',
@@ -111,7 +111,7 @@ const ROUTES = {
   },
   S08: {
     name: 'S08', label: 'KK Sentral Loop', distance: '20.00 km',
-    available: true,
+    available: false,
     availableFrom: 'July 2026',
     stops: [
       'KK Sentral','Jabatan Audit','Karamunising Capital','Wisma Tun Fuad',
@@ -262,9 +262,6 @@ function findRoute(fromStop, toStop) {
 
   // Check each route for DIRECT routes (circular loop)
   Object.entries(ROUTES).forEach(([code, r]) => {
-    // Skip unavailable routes
-    if (!r.available) return;
-    
     const stops = r.stops;
     const fi = stops.indexOf(fromStop);
     const ti = stops.indexOf(toStop);
@@ -326,7 +323,9 @@ function findRoute(fromStop, toStop) {
           numStops: numStops,
           boardAt: fromStop,
           alightAt: toStop,
-          segments: segments
+          segments: segments,
+          available: r.available,
+          availableFrom: r.availableFrom
         });
       } else {
         // No major hubs, regular direct route
@@ -336,7 +335,9 @@ function findRoute(fromStop, toStop) {
           stops: routeStops,
           numStops: numStops,
           boardAt: fromStop,
-          alightAt: toStop
+          alightAt: toStop,
+          available: r.available,
+          availableFrom: r.availableFrom
         });
       }
     }
@@ -470,6 +471,18 @@ function renderResult(fromStop, toStop) {
   const isSegmented = best.type === 'direct_segmented';
   const totalStops = (isTransfer || isTwoTransfer) ? best.totalStops : best.numStops;
   const duration = estimateDuration(totalStops);
+
+  // Check if route is unavailable
+  const isUnavailable = best.available === false;
+  const unavailableBanner = isUnavailable ? `
+    <div style="margin-bottom:1rem;padding:12px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:8px;text-align:center;">
+      <p style="font-size:13px;color:#e65c00;margin:0;font-weight:600;">
+        🚧 This route (${best.route}) will be available starting <strong>${best.availableFrom}</strong>
+      </p>
+      <p style="font-size:11px;color:#e65c00;margin:4px 0 0 0;">
+        Currently, only S01 and S05 routes are operational.
+      </p>
+    </div>` : '';
 
   let stepsHTML = '';
 
@@ -757,6 +770,7 @@ function renderResult(fromStop, toStop) {
         </div>
       </div>
       <div class="result-body">
+        ${unavailableBanner}
         <div class="steps">${stepsHTML}</div>
         <div class="fare-box">
           <div>
