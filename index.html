@@ -64,6 +64,10 @@
   .search-btn { width: 100%; padding: 13px; background: var(--pink); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background .15s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 4px; }
   .search-btn:hover { background: var(--pink-dark); }
 
+  .location-btn { width: 100%; padding: 8px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .15s; margin-top: 8px; margin-bottom: 4px; }
+  .location-btn:hover { background: var(--pink-light); border-color: var(--pink); color: var(--pink); }
+  .location-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
   /* QUICK CHIPS */
   .quick-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
   .quick-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }
@@ -236,6 +240,9 @@
       <input class="route-input" id="originInput" type="text" placeholder="e.g. UMS, Centre Point, Likas…" autocomplete="off" />
       <div class="autocomplete-list" id="originAC"></div>
     </div>
+    <button class="location-btn" id="locationBtnOrigin" onclick="useMyLocation('origin')">
+      📍 Use My Location
+    </button>
 
     <button class="swap-btn" onclick="swapLocations()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
@@ -252,6 +259,9 @@
       <input class="route-input" id="destInput" type="text" placeholder="e.g. KK Sentral, 1 Borneo, KPJ…" autocomplete="off" />
       <div class="autocomplete-list" id="destAC"></div>
     </div>
+    <button class="location-btn" id="locationBtnDest" onclick="useMyLocation('dest')">
+      📍 Use My Location
+    </button>
 
     <button class="search-btn" onclick="searchRoute()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -336,6 +346,74 @@ const ROUTES = {
       'Sacred Heart','Sadong Jaya','KK Sentral'
     ]
   }
+};
+
+// ─── STOP COORDINATES ──────────────────────────────────────────
+// TODO: Fill in actual GPS coordinates for each stop
+// Find coordinates: Right-click location in Google Maps → Copy coordinates
+const STOPS_COORDS = {
+  // S01 Stops - Add coordinates here
+  'KK Sentral': { lat: 5.9804, lng: 116.0735 }, // Example coordinate
+  'Jabatan Audit': { lat: null, lng: null },
+  'Monocolo Boutique Hotel': { lat: null, lng: null },
+  'Sawit Kinabalu': { lat: null, lng: null },
+  'Wisma Wanita': { lat: null, lng: null },
+  'Taman Yakim Jaya': { lat: null, lng: null },
+  'Basel Likas': { lat: null, lng: null },
+  'SM Shan Tao': { lat: null, lng: null },
+  'OPP SDA Likas': { lat: null, lng: null },
+  'Wisma Kosan': { lat: null, lng: null },
+  'Likas Plaza': { lat: null, lng: null },
+  'OPP Pintu Masjid Bandaraya': { lat: null, lng: null },
+  'Masjid Bandaraya': { lat: null, lng: null },
+  'McD Anjung Selera': { lat: null, lng: null },
+  'Anjung Selera': { lat: null, lng: null },
+  'Menara Kinabalu': { lat: null, lng: null },
+  'Innoprise': { lat: null, lng: null },
+  'KPKPS': { lat: null, lng: null },
+  'UMS': { lat: null, lng: null },
+  '1 Borneo': { lat: null, lng: null },
+  'Kg. Delima': { lat: null, lng: null },
+  'Alamesra I': { lat: null, lng: null },
+  'OPP 1 Borneo': { lat: null, lng: null },
+  'Alamesra II': { lat: null, lng: null },
+  'OPP KPKPS': { lat: null, lng: null },
+  'OPP Innoprise': { lat: null, lng: null },
+  'Pintu Masjid Bandaraya': { lat: null, lng: null },
+  'Shell Likas': { lat: null, lng: null },
+  'Kg. Cendrakasih': { lat: null, lng: null },
+  'Luyang Plaza': { lat: null, lng: null },
+  'Foh Sang': { lat: null, lng: null },
+  'Bornion': { lat: null, lng: null },
+  'Taman Layang-Layang': { lat: null, lng: null },
+  'Zirafah': { lat: null, lng: null },
+  'OPP Mahkamah': { lat: null, lng: null },
+  'OPP Jabatan Audit': { lat: null, lng: null },
+  
+  // S05 Stops - Add coordinates here
+  'Centre Point': { lat: null, lng: null },
+  'Segama': { lat: null, lng: null },
+  'Jesselton Mall': { lat: null, lng: null },
+  'Jesselton Point Ferry Terminal': { lat: null, lng: null },
+  'Jesselton Quay': { lat: null, lng: null },
+  'SICC': { lat: null, lng: null },
+  'Sabah Energy': { lat: null, lng: null },
+  'Sabah Trade Centre': { lat: null, lng: null },
+  'Kompleks Sukan Likas': { lat: null, lng: null },
+  'Stadium Hoki': { lat: null, lng: null },
+  'KPJ': { lat: null, lng: null },
+  'HQE 2': { lat: null, lng: null },
+  'Damai Plaza': { lat: null, lng: null },
+  'E-West': { lat: null, lng: null },
+  'Taman Kinabalu': { lat: null, lng: null },
+  'Lido': { lat: null, lng: null },
+  'Taman Fortuna': { lat: null, lng: null },
+  'Vetro 11': { lat: null, lng: null },
+  'HQE 1': { lat: null, lng: null },
+  'Masjid Negeri': { lat: null, lng: null },
+  'UTC': { lat: null, lng: null },
+  'Sacred Heart': { lat: null, lng: null },
+  'Sadong Jaya': { lat: null, lng: null }
 };
 
 // Build flat stop index with aliases for fuzzy matching
@@ -1003,7 +1081,7 @@ function quickFill(from, to) {
   searchRoute();
 }
 
-// ─── STOPS MODAL ──────────────────────────────────────────────
+// ─── MODAL ─────────────────────────────────────────────────────
 function showModal(code) {
   const r = ROUTES[code];
   document.getElementById('modalTitle').textContent = `${code} — ${r.label}`;
@@ -1024,6 +1102,111 @@ function closeModal() { document.getElementById('stopsModal').classList.remove('
 document.getElementById('stopsModal').addEventListener('click', e => { if (e.target === document.getElementById('stopsModal')) closeModal(); });
 
 document.getElementById('originInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !document.getElementById('originAC').classList.contains('open')) document.getElementById('destInput').focus(); });
+
+// ─── GEOLOCATION ───────────────────────────────────────────────
+// Calculate distance between two GPS coordinates using Haversine formula
+function getDistance(lat1, lng1, lat2, lng2) {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c; // Distance in km
+}
+
+// Find nearest stops to user's location
+function findNearestStops(userLat, userLng, limit = 5) {
+  const distances = [];
+  
+  for (const [stopName, coords] of Object.entries(STOPS_COORDS)) {
+    // Skip stops without coordinates
+    if (!coords.lat || !coords.lng) continue;
+    
+    const distance = getDistance(userLat, userLng, coords.lat, coords.lng);
+    distances.push({ stopName, distance, coords });
+  }
+  
+  // Sort by distance and return top N
+  distances.sort((a, b) => a.distance - b.distance);
+  return distances.slice(0, limit);
+}
+
+// Get user's location and show nearest stops
+function useMyLocation(targetField) {
+  if (!navigator.geolocation) {
+    alert('Geolocation is not supported by your browser');
+    return;
+  }
+  
+  // Show loading state
+  const button = document.getElementById(targetField === 'origin' ? 'locationBtnOrigin' : 'locationBtnDest');
+  const originalText = button.innerHTML;
+  button.innerHTML = '📍 Getting location...';
+  button.disabled = true;
+  
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
+      const nearest = findNearestStops(latitude, longitude, 5);
+      
+      // Reset button
+      button.innerHTML = originalText;
+      button.disabled = false;
+      
+      if (nearest.length === 0) {
+        alert('No stops with coordinates found. Please add stop coordinates first.');
+        return;
+      }
+      
+      // Show nearest stops in a simple list
+      const stopsList = nearest.map((s, i) => 
+        `${i + 1}. ${s.stopName} (${s.distance.toFixed(2)} km away)`
+      ).join('\n');
+      
+      const selected = prompt(
+        `Nearest stops to your location:\n\n${stopsList}\n\nEnter the number of the stop you want to select (1-${nearest.length}):`,
+        '1'
+      );
+      
+      if (selected) {
+        const index = parseInt(selected) - 1;
+        if (index >= 0 && index < nearest.length) {
+          const stopName = nearest[index].stopName;
+          const inputField = document.getElementById(targetField === 'origin' ? 'originInput' : 'destInput');
+          inputField.value = stopName;
+          
+          // Trigger search if both fields are filled
+          const originVal = document.getElementById('originInput').value;
+          const destVal = document.getElementById('destInput').value;
+          if (originVal && destVal) {
+            searchRoute();
+          }
+        }
+      }
+    },
+    (error) => {
+      button.innerHTML = originalText;
+      button.disabled = false;
+      
+      let message = 'Unable to get your location. ';
+      if (error.code === error.PERMISSION_DENIED) {
+        message += 'Please allow location access in your browser settings.';
+      } else if (error.code === error.POSITION_UNAVAILABLE) {
+        message += 'Location information is unavailable.';
+      } else if (error.code === error.TIMEOUT) {
+        message += 'Location request timed out.';
+      }
+      alert(message);
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    }
+  );
+}
 </script>
 </body>
 </html>
