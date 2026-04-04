@@ -7,7 +7,7 @@ const MAJOR_HUBS = {
 
 const ROUTES = {
   S01: {
-    name: 'S01', label: 'KK Sentral Loop (Likas)', distance: '31.78 km',
+    name: 'S01', label: 'KK Sentral Loop', distance: '31.78 km',
     available: true,
     stops: [
       'KK Sentral','Jabatan Audit','Monocolo Boutique Hotel','Sawit Kinabalu',
