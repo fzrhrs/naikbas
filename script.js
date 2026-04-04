@@ -343,22 +343,15 @@ function findRoute(fromStop, toStop) {
     }
   });
 
-  if (results.length > 0) {
-    results.sort((a,b) => a.numStops - b.numStops);
-    return { type: 'found', options: results };
-  }
-
   // Try MULTI-ROUTE TRANSFERS via common stops
   const multiRouteTransfers = [];
   Object.entries(ROUTES).forEach(([codeA, rA]) => {
-    if (!rA.available) return;
-    
     const stopsA = rA.stops;
     const fi = stopsA.indexOf(fromStop);
     if (fi === -1) return;
     
     Object.entries(ROUTES).forEach(([codeB, rB]) => {
-      if (codeA === codeB || !rB.available) return;
+      if (codeA === codeB) return;
       
       const stopsB = rB.stops;
       const ti = stopsB.indexOf(toStop);
@@ -395,6 +388,12 @@ function findRoute(fromStop, toStop) {
           return; // Same stop
         }
         
+        // Check if either route is unavailable
+        const isUnavailable = !rA.available || !rB.available;
+        const unavailableRoutes = [];
+        if (!rA.available) unavailableRoutes.push({ route: codeA, availableFrom: rA.availableFrom });
+        if (!rB.available) unavailableRoutes.push({ route: codeB, availableFrom: rB.availableFrom });
+        
         multiRouteTransfers.push({
           type: 'transfer',
           leg1: { 
@@ -410,15 +409,23 @@ function findRoute(fromStop, toStop) {
             alightAt: toStop 
           },
           transferPoint: transferStop,
-          totalStops: leg1NumStops + leg2NumStops
+          totalStops: leg1NumStops + leg2NumStops,
+          available: !isUnavailable,
+          unavailableRoutes: unavailableRoutes
         });
       });
     });
   });
   
-  if (multiRouteTransfers.length > 0) {
-    multiRouteTransfers.sort((a,b) => a.totalStops - b.totalStops);
-    return { type: 'found', options: multiRouteTransfers };
+  // Combine direct routes and transfers, then sort by total stops
+  const allOptions = [
+    ...results.map(r => ({ ...r, totalStops: r.numStops })),
+    ...multiRouteTransfers
+  ];
+  
+  if (allOptions.length > 0) {
+    allOptions.sort((a,b) => a.totalStops - b.totalStops);
+    return { type: 'found', options: allOptions };
   }
 
   return { type: 'not_found' };
@@ -474,15 +481,35 @@ function renderResult(fromStop, toStop) {
 
   // Check if route is unavailable
   const isUnavailable = best.available === false;
-  const unavailableBanner = isUnavailable ? `
-    <div style="margin-bottom:1rem;padding:12px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:8px;text-align:center;">
-      <p style="font-size:13px;color:#e65c00;margin:0;font-weight:600;">
-        🚧 This route (${best.route}) will be available starting <strong>${best.availableFrom}</strong>
-      </p>
-      <p style="font-size:11px;color:#e65c00;margin:4px 0 0 0;">
-        Currently, only S01 and S05 routes are operational.
-      </p>
-    </div>` : '';
+  let unavailableBanner = '';
+  
+  if (isUnavailable) {
+    if (best.unavailableRoutes && best.unavailableRoutes.length > 0) {
+      // Transfer route with unavailable legs
+      const routeList = best.unavailableRoutes.map(r => r.route).join(', ');
+      const availableFrom = best.unavailableRoutes[0].availableFrom;
+      unavailableBanner = `
+        <div style="margin-bottom:1rem;padding:12px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:8px;text-align:center;">
+          <p style="font-size:13px;color:#e65c00;margin:0;font-weight:600;">
+            🚧 This journey uses unavailable route(s): <strong>${routeList}</strong>
+          </p>
+          <p style="font-size:11px;color:#e65c00;margin:4px 0 0 0;">
+            These routes will be available starting <strong>${availableFrom}</strong>. Currently, only S01 and S05 are operational.
+          </p>
+        </div>`;
+    } else {
+      // Direct route unavailable
+      unavailableBanner = `
+        <div style="margin-bottom:1rem;padding:12px;background:#fff3e0;border:1px solid #ffe0b2;border-radius:8px;text-align:center;">
+          <p style="font-size:13px;color:#e65c00;margin:0;font-weight:600;">
+            🚧 This route (${best.route}) will be available starting <strong>${best.availableFrom}</strong>
+          </p>
+          <p style="font-size:11px;color:#e65c00;margin:4px 0 0 0;">
+            Currently, only S01 and S05 routes are operational.
+          </p>
+        </div>`;
+    }
+  }
 
   let stepsHTML = '';
 
