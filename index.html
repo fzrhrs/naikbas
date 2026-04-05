@@ -72,10 +72,20 @@
           <input class="route-input" id="destInput" type="text" placeholder="e.g. KK Sentral, 1 Borneo, KPJ…" autocomplete="off" />
           <div class="autocomplete-list" id="destAC"></div>
         </div>
-        <button class="location-btn" id="locationBtnDest" onclick="useMyLocation('dest')">
-          📍 Use My Location
+        <button class="location-btn nominatim-btn" id="nominatimBtn" onclick="openNominatimSearch()">
+          🔍 Search by place or address
         </button>
-        <div class="nearest-stops-dropdown" id="nearestStopsDest"></div>
+
+        <!-- NOMINATIM SEARCH PANEL -->
+        <div class="nominatim-panel" id="nominatimPanel" style="display:none">
+          <div class="nominatim-input-wrap">
+            <input class="route-input nominatim-input" id="nominatimInput" type="text"
+              placeholder="e.g. Warisan Square, Jalan Gaya, near Watsons…"
+              autocomplete="off" />
+            <button class="nominatim-search-go" id="nominatimGo" onclick="runNominatimSearch()">Search</button>
+          </div>
+          <div class="nominatim-results" id="nominatimResults"></div>
+        </div>
 
         <button class="search-btn" onclick="searchRoute()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>

@@ -1180,3 +1180,103 @@ function selectNearestStop(targetField, stopName) {
     searchRoute();
   }
 }
+
+// ─── NOMINATIM PLACE SEARCH ────────────────────────────────────
+let nominatimDebounce = null;
+
+function openNominatimSearch() {
+  const panel = document.getElementById('nominatimPanel');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) {
+    document.getElementById('nominatimInput').focus();
+    document.getElementById('nominatimResults').innerHTML = '';
+  }
+}
+
+function closeNominatimPanel() {
+  document.getElementById('nominatimPanel').style.display = 'none';
+  document.getElementById('nominatimResults').innerHTML = '';
+  document.getElementById('nominatimInput').value = '';
+}
+
+document.getElementById('nominatimInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') runNominatimSearch();
+  if (e.key === 'Escape') closeNominatimPanel();
+});
+
+async function runNominatimSearch() {
+  const query = document.getElementById('nominatimInput').value.trim();
+  if (!query) return;
+
+  const resultsEl = document.getElementById('nominatimResults');
+  const btn = document.getElementById('nominatimGo');
+
+  resultsEl.innerHTML = '<div class="nominatim-loading">🔍 Searching…</div>';
+  btn.disabled = true;
+
+  try {
+    // Bias results to Kota Kinabalu area using viewbox
+    const url = `https://nominatim.openstreetmap.org/search?` +
+      `q=${encodeURIComponent(query + ' Kota Kinabalu Sabah')}` +
+      `&format=json&limit=5&addressdetails=1` +
+      `&viewbox=116.0,5.85,116.2,6.1&bounded=0`;
+
+    const res = await fetch(url, {
+      headers: { 'Accept-Language': 'en', 'User-Agent': 'NaikBas/1.0' }
+    });
+    
+    if (!res.ok) throw new Error('Network error');
+    const data = await res.json();
+
+    if (!data.length) {
+      resultsEl.innerHTML = '<div class="nominatim-error">No places found. Try a different search term.</div>';
+      btn.disabled = false;
+      return;
+    }
+
+    // For each result, find the 3 nearest bus stops
+    let html = '';
+    data.forEach(place => {
+      const lat = parseFloat(place.lat);
+      const lng = parseFloat(place.lon);
+      const placeName = place.name || place.display_name.split(',')[0];
+      const address = place.display_name.split(',').slice(1, 4).join(',').trim();
+
+      // Find 3 nearest stops with coordinates
+      const nearest = Object.entries(STOPS_COORDS)
+        .filter(([, c]) => c.lat && c.lng)
+        .map(([name, c]) => ({ name, dist: getDistance(lat, lng, c.lat, c.lng) }))
+        .sort((a, b) => a.dist - b.dist)
+        .slice(0, 3);
+
+      const chipsHTML = nearest.map(s =>
+        `<button class="nominatim-stop-chip" onclick="selectNominatimStop('${s.name.replace(/'/g,"\\'")}')">
+          ${s.name} <span style="opacity:.6">${s.dist < 1 ? (s.dist * 1000).toFixed(0) + 'm' : s.dist.toFixed(1) + 'km'}</span>
+        </button>`
+      ).join('');
+
+      html += `
+        <div class="nominatim-result-item">
+          <div class="nominatim-result-place">📍 ${placeName}</div>
+          <div class="nominatim-result-address">${address}</div>
+          <span class="nominatim-stops-label">Nearest bus stops</span>
+          <div class="nominatim-result-stops">${chipsHTML}</div>
+        </div>`;
+    });
+
+    resultsEl.innerHTML = html;
+  } catch (err) {
+    resultsEl.innerHTML = '<div class="nominatim-error">Search failed. Please check your connection and try again.</div>';
+  }
+
+  btn.disabled = false;
+}
+
+function selectNominatimStop(stopName) {
+  document.getElementById('destInput').value = stopName;
+  closeNominatimPanel();
+
+  const originVal = document.getElementById('originInput').value;
+  if (originVal) searchRoute();
+}
