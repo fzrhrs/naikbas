@@ -65,6 +65,16 @@ main { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
 .location-btn:hover { background: var(--pink-light); border-color: var(--pink); color: var(--pink); }
 .location-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
+/* NEAREST STOPS DROPDOWN */
+.nearest-stops-dropdown { display: none; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); margin-top: 8px; margin-bottom: 8px; overflow: hidden; animation: fadeUp .2s ease; }
+.nearest-stops-dropdown.open { display: block; }
+.nearest-stop-item { padding: 12px 14px; cursor: pointer; border-bottom: 1px solid var(--border); transition: all .15s; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.nearest-stop-item:last-child { border-bottom: none; }
+.nearest-stop-item:hover { background: var(--pink-light); }
+.nearest-stop-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.nearest-stop-distance { font-size: 11px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+.nearest-stops-header { padding: 10px 14px; background: var(--pink-light); border-bottom: 1px solid #f5c0de; font-size: 11px; font-weight: 600; color: var(--pink-dark); text-transform: uppercase; letter-spacing: .07em; }
+
 /* QUICK CHIPS */
 .quick-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 500; }
 .quick-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }

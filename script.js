@@ -1101,9 +1101,14 @@ function useMyLocation(targetField) {
   
   // Show loading state
   const button = document.getElementById(targetField === 'origin' ? 'locationBtnOrigin' : 'locationBtnDest');
+  const dropdown = document.getElementById(targetField === 'origin' ? 'nearestStopsOrigin' : 'nearestStopsDest');
   const originalText = button.innerHTML;
   button.innerHTML = '📍 Getting location...';
   button.disabled = true;
+  
+  // Hide dropdown while loading
+  dropdown.classList.remove('open');
+  dropdown.innerHTML = '';
   
   navigator.geolocation.getCurrentPosition(
     (position) => {
@@ -1119,31 +1124,20 @@ function useMyLocation(targetField) {
         return;
       }
       
-      // Show nearest stops in a simple list
-      const stopsList = nearest.map((s, i) => 
-        `${i + 1}. ${s.stopName} (${s.distance.toFixed(2)} km away)`
-      ).join('\n');
+      // Build dropdown HTML
+      let dropdownHTML = '<div class="nearest-stops-header">📍 Nearest stops to you</div>';
       
-      const selected = prompt(
-        `Nearest stops to your location:\n\n${stopsList}\n\nEnter the number of the stop you want to select (1-${nearest.length}):`,
-        '1'
-      );
+      nearest.forEach((stop) => {
+        dropdownHTML += `
+          <div class="nearest-stop-item" onclick="selectNearestStop('${targetField}', '${stop.stopName.replace(/'/g, "\\'")}')">
+            <div class="nearest-stop-name">${stop.stopName}</div>
+            <div class="nearest-stop-distance">${stop.distance.toFixed(2)} km</div>
+          </div>
+        `;
+      });
       
-      if (selected) {
-        const index = parseInt(selected) - 1;
-        if (index >= 0 && index < nearest.length) {
-          const stopName = nearest[index].stopName;
-          const inputField = document.getElementById(targetField === 'origin' ? 'originInput' : 'destInput');
-          inputField.value = stopName;
-          
-          // Trigger search if both fields are filled
-          const originVal = document.getElementById('originInput').value;
-          const destVal = document.getElementById('destInput').value;
-          if (originVal && destVal) {
-            searchRoute();
-          }
-        }
-      }
+      dropdown.innerHTML = dropdownHTML;
+      dropdown.classList.add('open');
     },
     (error) => {
       button.innerHTML = originalText;
@@ -1165,4 +1159,24 @@ function useMyLocation(targetField) {
       maximumAge: 0
     }
   );
+}
+
+// Handle selection from nearest stops dropdown
+function selectNearestStop(targetField, stopName) {
+  const inputField = document.getElementById(targetField === 'origin' ? 'originInput' : 'destInput');
+  const dropdown = document.getElementById(targetField === 'origin' ? 'nearestStopsOrigin' : 'nearestStopsDest');
+  
+  // Set the input value
+  inputField.value = stopName;
+  
+  // Hide the dropdown
+  dropdown.classList.remove('open');
+  dropdown.innerHTML = '';
+  
+  // Trigger search if both fields are filled
+  const originVal = document.getElementById('originInput').value;
+  const destVal = document.getElementById('destInput').value;
+  if (originVal && destVal) {
+    searchRoute();
+  }
 }
