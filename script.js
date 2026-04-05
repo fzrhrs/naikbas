@@ -1215,30 +1215,29 @@ async function runNominatimSearch() {
   resultsEl.innerHTML = '<div class="nominatim-loading">🔍 Searching…</div>';
   btn.disabled = true;
 
-  // First, check if query matches a bus stop name directly
+  // Check if query matches any bus stop names
   const normalizedQuery = normalise(query);
   const matchingStops = ALL_STOPS.filter(stop => 
     normalise(stop.name).includes(normalizedQuery)
   ).map(stop => stop.name);
 
-  // If we found exact bus stop matches, show them first
+  let finalHTML = '';
+
+  // Show bus stop matches if found
   if (matchingStops.length > 0) {
-    let html = '<div class="nominatim-result-item" style="background: var(--pink-light); border-color: var(--pink);">';
-    html += '<div class="nominatim-result-place">🚏 Bus Stop Match</div>';
-    html += '<div class="nominatim-result-address">Found in our bus stop database</div>';
-    html += '<span class="nominatim-stops-label">Select stop</span>';
-    html += '<div class="nominatim-result-stops">';
+    finalHTML += '<div class="nominatim-result-item" style="background: var(--pink-light); border-color: var(--pink);">';
+    finalHTML += '<div class="nominatim-result-place">🚏 Bus Stop Matches</div>';
+    finalHTML += '<div class="nominatim-result-address">Found in our bus stop database</div>';
+    finalHTML += '<span class="nominatim-stops-label">Select stop</span>';
+    finalHTML += '<div class="nominatim-result-stops">';
     
     matchingStops.slice(0, 5).forEach(stopName => {
-      html += `<button class="nominatim-stop-chip" onclick="selectNominatimStop('${stopName.replace(/'/g,"\\'")}')">
+      finalHTML += `<button class="nominatim-stop-chip" onclick="selectNominatimStop('${stopName.replace(/'/g,"\\'")}')">
         ${stopName}
       </button>`;
     });
     
-    html += '</div></div>';
-    resultsEl.innerHTML = html;
-    btn.disabled = false;
-    return;
+    finalHTML += '</div></div>';
   }
 
   try {
@@ -1291,9 +1290,15 @@ async function runNominatimSearch() {
         </div>`;
     });
 
-    resultsEl.innerHTML = html;
+    finalHTML += html;
+    resultsEl.innerHTML = finalHTML;
   } catch (err) {
-    resultsEl.innerHTML = '<div class="nominatim-error">Search failed. Please check your connection and try again.</div>';
+    // If OpenStreetMap fails but we have bus stop matches, show them
+    if (finalHTML) {
+      resultsEl.innerHTML = finalHTML;
+    } else {
+      resultsEl.innerHTML = '<div class="nominatim-error">Search failed. Please check your connection and try again.</div>';
+    }
   }
 
   btn.disabled = false;
